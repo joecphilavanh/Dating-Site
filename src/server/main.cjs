@@ -2,6 +2,8 @@ const express = require("express");
 const ViteExpress = require("vite-express");
 
 const app = express();
+const cors = require('cors');
+app.use(cors());
 
 app.get("/hello", (req, res) => {
   res.send("Hello Vite + React!");
