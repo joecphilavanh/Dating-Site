@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Hobbies {
+  id              Int     @id @default(autoincrement())
+  user_id         Int
+  raw_hobbies     String? @db.VarChar(255)
+  cleaned_hobbies String? @db.VarChar(255)
+  Users           Users   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "hobbies_user_id_foreign")
+}
+
+model Likes {
+  like_id                     Int       @id @default(autoincrement())
+  liker_id                    Int
+  liked_id                    Int
+  timestamp                   DateTime? @default(now()) @db.Timestamp(0)
+  Users_Likes_liked_idToUsers Users     @relation("Likes_liked_idToUsers", fields: [liked_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "likes_liked_id_foreign")
+  Users_Likes_liker_idToUsers Users     @relation("Likes_liker_idToUsers", fields: [liker_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "likes_liker_id_foreign")
+}
+
+model Messages {
+  message_id                        Int       @id @default(autoincrement())
+  sender_id                         Int
+  receiver_id                       Int
+  content                           String
+  timestamp                         DateTime? @default(now()) @db.Timestamp(0)
+  read_status                       Boolean?  @default(false)
+  Users_Messages_receiver_idToUsers Users     @relation("Messages_receiver_idToUsers", fields: [receiver_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "messages_receiver_id_foreign")
+  Users_Messages_sender_idToUsers   Users     @relation("Messages_sender_idToUsers", fields: [sender_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "messages_sender_id_foreign")
+}
+
+model Profiles {
+  profile_id                Int      @id @default(autoincrement())
+  user_id                   Int
+  name                      String   @db.VarChar(255)
+  birthdate                 DateTime @db.Date
+  gender                    String   @db.VarChar(50)
+  orientation               String   @db.VarChar(50)
+  interested_in_orientation String   @db.VarChar(50)
+  height                    String?  @db.VarChar(50)
+  body_type                 String?  @db.VarChar(50)
+  ethnicity                 String?  @db.VarChar(50)
+  lifestyle_preferences     String?
+  profile_photo_url         String?
+  video_url                 String?
+  current_location          String?  @db.VarChar(255)
+  hometown                  String?  @db.VarChar(255)
+  bio                       String?
+  looking_for               String
+  age_range_preference      String?  @db.VarChar(50)
+  privacy_settings          Json?
+  notification_settings     Json?
+  Users                     Users    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_user_id_foreign")
+}
+
+model UserBehavior {
+  behavior_id    Int       @id @default(autoincrement())
+  user_id        Int
+  action_type    String    @db.VarChar(255)
+  action_details String
+  timestamp      DateTime? @default(now()) @db.Timestamp(0)
+  Users          Users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "userbehavior_user_id_foreign")
+}
+
+model Users {
+  user_id                              Int            @id @default(autoincrement())
+  username                             String         @unique(map: "users_username_unique") @db.VarChar(50)
+  email                                String         @unique(map: "users_email_unique") @db.VarChar(255)
+  password_hash                        String         @db.VarChar(255)
+  created_at                           DateTime?      @default(now()) @db.Timestamp(0)
+  last_login                           DateTime?      @db.Timestamp(0)
+  Hobbies                              Hobbies[]
+  Likes_Likes_liked_idToUsers          Likes[]        @relation("Likes_liked_idToUsers")
+  Likes_Likes_liker_idToUsers          Likes[]        @relation("Likes_liker_idToUsers")
+  Messages_Messages_receiver_idToUsers Messages[]     @relation("Messages_receiver_idToUsers")
+  Messages_Messages_sender_idToUsers   Messages[]     @relation("Messages_sender_idToUsers")
+  Profiles                             Profiles[]
+  UserBehavior                         UserBehavior[]
+}
