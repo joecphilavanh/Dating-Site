@@ -1,10 +1,14 @@
-
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Nav from "./components/Nav";
+import LandingPage from "./components/LandingPage";
 const App = () => {
   return (
-    <div>
-      <h1>Dating App</h1>
-    </div>
+    <Router>
+        <Nav />
+        <Routes>
+            <Route path="/" element={<LandingPage />} />
+        </Routes>
+    </Router>
   );
 }
 
