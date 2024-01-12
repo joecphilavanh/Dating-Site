@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUser } from '../UserContext';
+// import { useUser } from '../UserContext';
 import { Link } from 'react-router-dom';
 // import logo from '../location of the logo'; 
 
