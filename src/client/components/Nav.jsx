@@ -1,20 +1,16 @@
 import React from 'react';
-// import { useUser } from '../UserContext';
 import { Link } from 'react-router-dom';
-// import logo from '../location of the logo'; 
 import "../styles/Nav.css";
 
 
 
 function Navbar() {
-    const user = useUser();
     return (
         <nav className="navbar">
             <ul>
                 <li>
                     <Link to="/">
-                        /* put the link to our logo for them to click */
-                        Home
+                        logo
                     </Link>
                 </li>
             </ul>
