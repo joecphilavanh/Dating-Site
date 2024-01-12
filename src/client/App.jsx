@@ -6,13 +6,12 @@ import ChatRoom from "./components/ChatRoom";
 const App = () => {
   return (
     <Router>
-      <Nav />
+             <Nav />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/chat" element={<ChatRoom />} />
       </Routes>
     </Router>
   );
-};
-
+}
 export default App;
