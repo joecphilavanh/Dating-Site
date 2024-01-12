@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.profile-creation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+margin-top: 70px;}
+
+.media-upload, .info-form {
+    border: 2px solid black;
+    padding: 20px;
+    width: 90%; 
+    box-sizing: border-box;
+}
+
+.media-upload {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-form {
+    width: 90%; 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label, input, textarea, input[type=range] {
+    display: block;
+    margin-top: 10px;
+}
+
+input[type=submit] {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #333;
+}
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-gap: 10px; 
+  }
+  
+  .checkbox-grid label {
+    display: block;
+  }
+  
