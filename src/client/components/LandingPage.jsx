@@ -1,40 +1,53 @@
-import React, { useState } from "react";
-import  './App.css';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { supabase } from '../supabase';
 
 const LandingPage = () => {
-    const [username, setUsername] = useState('');
-    const [pass, setPass] = useState('');
+    // State to keep track of whether the user is logged in
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const handleSubmit = (u) => {
-        u.preventDefault();
-        console.log(username);
+    useEffect(() => {
+        // Define an async function to get the current session
+        async function getSession() {
+            try {
+                // Attempt to retrieve the current session from Supabase
+                const { data, error } = await supabase.auth.getSession();
 
-    }
+                // If there is an error, log it and exit early
+                if (error) {
+                    console.error('Error retrieving session:', error);
+                    return; // Early return on error
+                }
+
+                // Update the isLoggedIn state based on the session data
+                setIsLoggedIn(!!data.session);
+            } catch (error) {
+                // Catch and log any unhandled errors during the session retrieval
+                console.error('Unhandled error:', error);
+            }
+        }
+
+        // Call the getSession function
+        getSession();
+    }, []); // Empty dependency array to run only on component mount
+
     return (
-        <>
-        <h1 className="text">Sign In</h1>
-        <div className="login-form-container">
-    
-
-        <form onSubmit={handleSubmit}>
-            <label for="username">Username</label>
-            <input value={username} onChange={(u) => setUsername(u.target.value)} type="username" placeholder="Enter Username" id="username" name="username"></input>
-            <label for="password">Password</label>
-            <input value={pass} onChange={(u) => setPass(u.target.value)} type="password" placeholder="Enter Password" id="password" name="password"></input>
-            <button type="sumbit">Log In</button>
-        </form>
+        <div>
+            {/* Conditional rendering based on the isLoggedIn state */}
+            {isLoggedIn ? (
+                // Display this block if the user is logged in
+                <div>Display Matches Here</div>
+            ) : (
+                // Display this block if the user is not logged in
+                <div>
+                    <h2>Welcome to Our Dating App</h2>
+                    <Link to="/login">Login</Link>
+                    <br />
+                    <Link to="/register">Register</Link>
+                </div>
+            )}
         </div>
+    );
+};
 
-        <button className="no-account-button">Don't have an account? Register here.</button>
-        </>
-
-        
-        
-            
-       
-        
-        
-    )
-}
-
-export default LandingPage
+export default LandingPage;
