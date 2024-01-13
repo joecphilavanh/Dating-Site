@@ -1,40 +1,15 @@
-import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { supabase } from '../supabase';
+import { useAuth } from '../context/AuthContext'; // Importing the useAuth hook from Auth context
 import "../styles/Nav.css";
 
 function Navbar() {
     const navigate = useNavigate();
-    // State to track if the user is logged in
-    const [loggedIn, setLoggedIn] = useState(false);
+    const { isLoggedIn, logout } = useAuth(); // Destructuring isLoggedIn and logout from the context
 
-    // Check if user is logged in
-    useEffect(() => {
-        // Define an async function to get the current session
-        const checkSession = async () => {
-            // Retrieve the current session from Supabase
-            const { data: { session } } = await supabase.auth.getSession();
-            // Update loggedIn state based on session existence
-            setLoggedIn(!!session);
-        };
-
-        // Call the checkSession function when the component mounts
-        checkSession();
-    }, []); // Empty dependency array to run only on component mount
-
-    // Logout function
-    const handleLogout = async () => {
-        try {
-            // Sign out using Supabase auth
-            await supabase.auth.signOut();
-            // Redirect to the home page after logout
-            navigate('/');
-            // Update loggedIn state to false as user is now logged out
-            setLoggedIn(false);
-        } catch (error) {
-            // Log any errors during the logout process
-            console.error('Error during logout:', error);
-        }
+    // Handle the logout process
+    const handleLogout = () => {
+        logout(); // Call the logout function from your Auth context
+        navigate('/'); // Redirect to the home page after logging out
     };
 
     return (
@@ -43,8 +18,8 @@ function Navbar() {
                 {/* Link to the home page */}
                 <Link to="/">logo</Link>
             </div>
-            {/* Conditional rendering based on the loggedIn state */}
-            {loggedIn && (
+            {/* Conditional rendering based on the isLoggedIn state */}
+            {isLoggedIn && (
                 <div className="navbar-right">
                     {/* Navigation links that are shown when the user is logged in */}
                     <Link to="/matches" className="navbar-link">Matches</Link>
