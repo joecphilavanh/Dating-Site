@@ -16,7 +16,8 @@ function Navbar() {
         <nav className="navbar">
             <div className="navbar-left">
 
-                <Link to="/">logo</Link>
+                <Link to="/"><img src="logohearts.png" alt="Pucker Up Logo" className="logo-image" /></Link>
+
             </div>
             {/* Conditional rendering based on the isLoggedIn state */}
             {isLoggedIn && (
