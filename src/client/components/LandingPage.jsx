@@ -1,35 +1,8 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../supabase';
+import { useAuth } from '../context/AuthContext'; // Importing the useAuth hook from  Auth context
 
 const LandingPage = () => {
-    // State to keep track of whether the user is logged in
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        // Define an async function to get the current session
-        async function getSession() {
-            try {
-                // Attempt to retrieve the current session from Supabase
-                const { data, error } = await supabase.auth.getSession();
-
-                // If there is an error, log it and exit early
-                if (error) {
-                    console.error('Error retrieving session:', error);
-                    return; // Early return on error
-                }
-
-                // Update the isLoggedIn state based on the session data
-                setIsLoggedIn(!!data.session);
-            } catch (error) {
-                // Catch and log any unhandled errors during the session retrieval
-                console.error('Unhandled error:', error);
-            }
-        }
-
-        // Call the getSession function
-        getSession();
-    }, []); // Empty dependency array to run only on component mount
+    const { isLoggedIn } = useAuth(); // Using isLoggedIn from Auth context
 
     return (
         <div>
