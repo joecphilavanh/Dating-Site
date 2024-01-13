@@ -1,25 +1,47 @@
 .navbar {
-    background-color: black;
-    padding: 10px 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: whitesmoke;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 10px;
 }
 
-.navbar-left, .navbar-right {
-    display: flex;
+.navbar-left {
+    font-size: 24px;
 }
 
 .navbar-link {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
+    color: crimson;
     text-decoration: none;
+    margin-right: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Add smooth transitions for background and text color */
+    padding: 8px 16px;
+    border-radius: 4px;
 }
-  
+
+.navbar-link:hover {
+    background-color: mediumvioletred;
+    color: white;
+}
+
+/* Style the logout button */
+.navbar-link.button {
+    background-color: white;
+    color: crimson;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.navbar-link.button:hover {
+    background-color: #D50000;
+    color: white;
+}
+
+.logo-image {
+    width: 350px;
+    height: auto;
+}
