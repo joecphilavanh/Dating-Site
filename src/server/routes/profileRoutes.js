@@ -26,8 +26,12 @@ profilesRouter.get('/:userId', async (req, res) => {
 // POST a new user profile
 profilesRouter.post('/', async (req, res) => {
     try {
-        const { user_id, name, birthdate, gender, orientation, interested_in_orientation, looking_for } = req.body;
-
+        const {
+            user_id, name, birthdate, gender, orientation,
+            height_ft, height_in, body_type, ethnicity,
+            smokes, drinks, profession, current_location,
+            hometown, looking_for
+        } = req.body;
         // Validate the user_id
         const userId = parseUserId(user_id); // This will throw an error if invalid
 
@@ -39,6 +43,9 @@ profilesRouter.post('/', async (req, res) => {
         // Convert birthdate to JavaScript Date object
         const formattedBirthdate = new Date(birthdate);
 
+        const smokesBool = smokes === 'yes';
+        const drinksBool = drinks === 'yes';
+        
         // Create a new profile
         const newProfile = await prisma.profiles.create({
             data: {
@@ -47,7 +54,15 @@ profilesRouter.post('/', async (req, res) => {
                 birthdate: formattedBirthdate,
                 gender,
                 orientation,
-                interested_in_orientation,
+                height_ft,
+                height_in,
+                body_type,
+                ethnicity,
+                smokes: smokesBool,
+                drinks: drinksBool,
+                profession,
+                current_location,
+                hometown,
                 looking_for
             }
         });
