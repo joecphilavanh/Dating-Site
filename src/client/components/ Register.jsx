@@ -31,7 +31,7 @@ const Register = () => {
 
         try {
             // Send a POST request to the registration endpoint
-            const response = await fetch('http://localhost:3000/auth/register', {
+            const response = await fetch('http://https://puckerup.vercel.app/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
