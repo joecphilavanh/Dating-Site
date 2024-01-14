@@ -36,27 +36,27 @@ model Messages {
 }
 
 model Profiles {
-  profile_id                Int      @id @default(autoincrement())
-  user_id                   Int
-  name                      String   @db.VarChar(255)
-  birthdate                 DateTime @db.Date
-  gender                    String   @db.VarChar(50)
-  orientation               String   @db.VarChar(50)
-  interested_in_orientation String   @db.VarChar(50)
-  height                    String?  @db.VarChar(50)
-  body_type                 String?  @db.VarChar(50)
-  ethnicity                 String?  @db.VarChar(50)
-  lifestyle_preferences     String?
-  profile_photo_url         String?
-  video_url                 String?
-  current_location          String?  @db.VarChar(255)
-  hometown                  String?  @db.VarChar(255)
-  bio                       String?
-  looking_for               String
-  age_range_preference      String?  @db.VarChar(50)
-  privacy_settings          Json?
-  notification_settings     Json?
-  Users                     Users    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_user_id_foreign")
+  profile_id            Int      @id @default(autoincrement())
+  user_id               Int
+  name                  String   @db.VarChar(255)
+  birthdate             DateTime @db.Date
+  gender                String   @db.VarChar(50)
+  orientation           String   @db.VarChar(50)
+  height_ft             Int // Height in feet
+  height_in             Int // Height in inches
+  body_type             String?  @db.VarChar(50)
+  ethnicity             String?  @db.VarChar(50)
+  smokes                Boolean // True if the user smokes
+  drinks                Boolean // True if the user drinks
+  profession            String?  @db.VarChar(255) // User's profession
+  current_location      String?  @db.VarChar(255)
+  hometown              String?  @db.VarChar(255)
+  bio                   String?
+  looking_for           String   @db.VarChar(50)
+  age_range_preference  String?  @db.VarChar(50)
+  privacy_settings      Json?
+  notification_settings Json?
+  Users                 Users    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_user_id_foreign")
 }
 
 model UserBehavior {
