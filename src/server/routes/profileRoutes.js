@@ -2,15 +2,8 @@ const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const profilesRouter = express.Router();
+const { parseUserId, isValidDate } = require('../auth/utils.js');
 
-// Helper function to parse user_id
-const parseUserId = (id) => {
-    const userId = parseInt(id, 10);
-    if (isNaN(userId)) {
-        throw new Error('Invalid user ID');
-    }
-    return userId;
-};
 
 // GET a user's profile by user_id
 profilesRouter.get('/:userId', async (req, res) => {
@@ -33,15 +26,41 @@ profilesRouter.get('/:userId', async (req, res) => {
 // POST a new user profile
 profilesRouter.post('/', async (req, res) => {
     try {
+        const { user_id, name, birthdate, gender, orientation, interested_in_orientation, looking_for } = req.body;
+
+        // Validate the user_id
+        const userId = parseUserId(user_id); // This will throw an error if invalid
+
+        // Validate the birthdate format
+        if (!isValidDate(birthdate)) {
+            return res.status(400).send('Invalid birthdate format. Use YYYY-MM-DD.');
+        }
+
+        // Convert birthdate to JavaScript Date object
+        const formattedBirthdate = new Date(birthdate);
+
+        // Create a new profile
         const newProfile = await prisma.profiles.create({
-            data: req.body
+            data: {
+                user_id: userId,
+                name,
+                birthdate: formattedBirthdate,
+                gender,
+                orientation,
+                interested_in_orientation,
+                looking_for
+            }
         });
+
+        // Send the created profile as a response
         res.status(201).json(newProfile);
     } catch (error) {
-        console.error(error);
+        console.error('Error creating profile:', error);
         res.status(500).send(error.message);
     }
 });
+
+module.exports = profilesRouter;
 
 // PUT to update a user's profile by user_id
 profilesRouter.put('/:userId', async (req, res) => {

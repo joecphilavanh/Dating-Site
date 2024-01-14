@@ -44,7 +44,7 @@ const Register = () => {
                 setErrorMessage('Registration failed'); // Set error message for the user
             } else {
                 const result = await response.json();
-                login(result.token); // Log the user in using the token from the response
+                login(result.token, result.userId); // Pass both token and userId to login
                 navigate('/matches'); // Navigate to the Matches page
             }
         } catch (error) {
