@@ -12,21 +12,21 @@ import {AuthProvider} from "./context/AuthContext";
 
 const App = () => {
   return (
-  <AuthProvider>
-    <Router>
-        <Nav />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/chat" element={<ChatRoom />} />
-
-        <Route path="/ProfileCreation" element={<ProfileCreation />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/matches" element={<Matches />} />
-        <Route path="/login" element={<Login />} />
-        <Route path={"/register"} element={<Register />} />
-      </Routes>
-    </Router>
-  </AuthProvider>
+      <AuthProvider>
+        <Router>
+          <Nav /> {/* Render the Nav component at the top level */}
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/chat" element={<ChatRoom />} />
+            <Route path="/createprofile" element={<ProfileCreation />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/matches" element={<Matches />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
   );
 };
+
 export default App;
