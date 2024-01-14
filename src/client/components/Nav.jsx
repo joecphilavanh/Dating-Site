@@ -26,6 +26,8 @@ function Navbar() {
                     <Link to="/matches" className="navbar-link">Matches</Link>
                     <Link to="/profile" className="navbar-link">Profile</Link>
                     <Link to="/notifications" className="navbar-link">Notifications</Link>
+                    <Link to="/chat" className="navbar-link">Chat</Link>
+                    <Link to="/createprofile" className="navbar-link">Create Profile</Link>
 
                     {/* Logout button */}
                     <button onClick={handleLogout} className="navbar-link button">Logout</button>
