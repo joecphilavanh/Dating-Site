@@ -12,7 +12,6 @@ const prisma = new PrismaClient();
 
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
-  console.log(username, email, password);
   try {
     const hashedPassword = await hashPassword(password);
     const user = await prisma.users.create({
@@ -25,7 +24,6 @@ router.post("/register", async (req, res) => {
       userId: user.user_id,
     });
   } catch (error) {
-    console.log("entered the catch");
     res
       .status(500)
       .json({ message: "Error creating user", error: error.message });
