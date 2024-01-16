@@ -9,6 +9,7 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 // Registration endpoint
+
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -17,14 +18,15 @@ router.post("/register", async (req, res) => {
     const user = await prisma.users.create({
       data: { username, email, password_hash: hashedPassword },
     });
-    const token = generateToken(user.user_id);
-    res.status(201).json({
-      message: "User created successfully",
-      token,
-      userId: user.user_id,
-    });
+
+    res
+      .status(201)
+      .json({
+        message: "User created successfully",
+        token,
+        userId: user.user_id,
+      });
   } catch (error) {
-    console.error("Registration Error:", error); // Added detailed logging
     res
       .status(500)
       .json({ message: "Error creating user", error: error.message });
