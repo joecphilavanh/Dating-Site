@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { useState, useEffect } from "react";
 import Chat from "./Chat.jsx";
-import "../styles/chatRoom.css";
+import "../styles/ChatRoom.css";
 
 const supabase = createClient(
   import.meta.env.VITE_DATABASE_URL,
