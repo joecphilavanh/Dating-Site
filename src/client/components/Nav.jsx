@@ -17,7 +17,7 @@ function Navbar() {
       <div className="navbar-left">
         <Link to="/">
           <img
-            src="src/client/assets/Spark-logo.png"
+            src="logohearts.png"
             alt="Pucker Up Logo"
             className="logo-image"
           />
