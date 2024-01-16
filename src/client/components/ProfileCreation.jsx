@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/ProfileCreation.css';
+import { useNavigate } from 'react-router-dom';
 const ProfileCreation = () => {
   const { userId } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -48,7 +50,7 @@ const ProfileCreation = () => {
       if (!response.ok) {
         alert('Profile creation failed');
       } else {
-        // Handle success, e.g., navigate to another page or show success message
+        navigate('/profile');
       }
     } catch (error) {
       console.error('Error creating profile:', error);
