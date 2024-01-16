@@ -38,6 +38,7 @@ const Register = () => {
         },
         body: JSON.stringify(formData),
       });
+      console.log(response);
 
       // Check if the response is successful
       if (!response.ok) {

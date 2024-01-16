@@ -12,21 +12,20 @@ const prisma = new PrismaClient();
 
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
-
+  console.log(username, email, password);
   try {
     const hashedPassword = await hashPassword(password);
     const user = await prisma.users.create({
       data: { username, email, password_hash: hashedPassword },
     });
-
-    res
-      .status(201)
-      .json({
-        message: "User created successfully",
-        token,
-        userId: user.user_id,
-      });
+    const token = generateToken(user.user_id);
+    res.status(201).json({
+      message: "User created successfully",
+      token,
+      userId: user.user_id,
+    });
   } catch (error) {
+    console.log("entered the catch");
     res
       .status(500)
       .json({ message: "Error creating user", error: error.message });
@@ -39,7 +38,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const user = await prisma.users.findUnique({ where: { email } });
-    console.log(user);
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
