@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Importing the useAuth hook
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const { login } = useAuth(); // Using the login function from Auth context
+    const { login } = useAuth();
 
-    // Function to handle the login form submission
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            // Send a POST request to the login endpoint with email and password
             const response = await fetch('http://localhost:3000/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -24,13 +22,8 @@ const Login = () => {
                 return;
             }
 
-            // If login is successful, parse the response JSON
             const result = await response.json();
-
-            // Call the login function from the Auth context to set user authentication
-            login(result.token, result.userId); // Pass both token and userId to login
-
-            // Redirect to the 'matches' page on successful login
+            login(result.token, result.userId);
             navigate('/matches');
         } catch (error) {
             console.error('Error during login:', error);
@@ -38,26 +31,32 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                {/* Input for email */}
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email"
-                />
-                {/* Input for password */}
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                />
-                {/* Button to submit the login form */}
-                <button type="submit">Login</button>
-            </form>
+        <div className="flex items-center justify-center h-screen bg-gray-100">
+            <div className="w-full max-w-md p-8 space-y-6 rounded-lg bg-white shadow-md">
+                <h2 className="text-2xl font-bold text-center text-gray-700">Login</h2>
+                <form onSubmit={handleLogin} className="space-y-6">
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email"
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
+                    />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
+                    />
+                    <button
+                        type="submit"
+                        className="w-full px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-2"
+                    >
+                        Login
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };
