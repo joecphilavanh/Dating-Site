@@ -8,6 +8,7 @@ import Profile from "./components/Profile";
 import Matches from "./components/Matches";
 import Login from "./components/Login";
 import { AuthProvider } from "./context/AuthContext";
+import Discover from "./components/Discover";
 
 const App = () => {
   return (

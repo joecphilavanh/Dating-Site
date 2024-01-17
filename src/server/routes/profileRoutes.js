@@ -4,6 +4,16 @@ const prisma = new PrismaClient();
 const profilesRouter = express.Router();
 const { parseUserId, isValidDate } = require('../auth/utils.js');
 
+// GET all user profiles
+profilesRouter.get('/', async (req, res) => {
+    try {
+        const profiles = await prisma.profiles.findMany();
+        res.json(profiles);
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        res.status(500).send(error.message);
+    }
+});
 
 // GET a user's profile by user_id
 profilesRouter.get('/:userId', async (req, res) => {
