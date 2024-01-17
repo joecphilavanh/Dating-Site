@@ -1,0 +1,80 @@
+#profile {
+}
+
+#profile h2 {
+  text-align: center;
+}
+
+.flex-box {
+  display: flex;
+  justify-content: center;
+}
+
+#profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 50%;
+  max-width: 350px;
+  min-width: 300px;
+}
+
+#profile-info label {
+  padding: 20px;
+}
+
+#profile-info input {
+  width: 300px;
+  height: 30px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+
+#profile-info #show-gender {
+  width: 20px;
+  height: 20px;
+}
+
+#profile-info select {
+  width: 300px;
+  height: 30px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+
+.profile-pics {
+  width: 50%;
+  min-width: 300px;
+  max-width: 350px;
+}
+
+.profile-pics ul {
+  padding: 0;
+}
+
+.profile-pics li {
+  background-color: rgb(171, 171, 227);
+  margin: 5px;
+
+  display: inline-block;
+  border: 5px dotted grey;
+  border-radius: 7px;
+}
+
+.profile-pics img {
+  width: 100%;
+  min-width: 90px;
+  height: 150px;
+}
+
+.profile-pics button {
+  position: relative;
+  left: 90px;
+  border-radius: 50%;
+  background-color: rgba(248, 122, 122, 0.717);
+  color: white;
+  font-weight: 800;
+  font-size: 1.1rem;
+  width: 30px;
+  height: 30px;
+}
