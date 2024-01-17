@@ -11,13 +11,13 @@ function Navbar() {
     };
 
     return (
-        <nav className="bg-gray-800 flex justify-between items-center pl-2 pr-2 text-white shadow-md">
+        <nav className="bg-gray-800 flex justify-between items-center p-2 text-white shadow-md">
             <div className="flex items-center">
                 <Link to="/">
                     <img
                         src="logohearts.png"
                         alt="Pucker Up Logo"
-                        className="max-w-[320px] h-auto ml-4"
+                        className="max-h-[100px] h-auto ml-4"
                     />
                 </Link>
             </div>
