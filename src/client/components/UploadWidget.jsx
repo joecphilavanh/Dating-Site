@@ -27,7 +27,8 @@ function UploadWidget({ uwConfig, setPublicId }) {
         };
     }, [uwConfig, setPublicId]);
 
-    const openWidget = () => {
+    const openWidget = (e) => {
+        e.preventDefault();
         if (widget) widget.open();
     };
 
