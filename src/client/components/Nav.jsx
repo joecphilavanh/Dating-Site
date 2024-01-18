@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // Importing the useAuth hook from Auth context
-import "../styles/Nav.css";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
     const navigate = useNavigate();

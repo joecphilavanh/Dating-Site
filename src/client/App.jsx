@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import LandingPage from "./components/LandingPage";
-import Register from "./components/ Register";
+import Register from "./components/Register";
 import ChatRoom from "./components/ChatRoom";
 import ProfileCreation from "./components/ProfileCreation";
 import Profile from "./components/Profile";
@@ -9,6 +9,7 @@ import Matches from "./components/Matches";
 import Login from "./components/Login";
 import DiscoveringPeople from "./components/DiscoveringPeople";
 import {AuthProvider} from "./context/AuthContext";
+
 
 
 const App = () => {
