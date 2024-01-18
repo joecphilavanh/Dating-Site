@@ -40,7 +40,7 @@ profilesRouter.post('/', async (req, res) => {
             user_id, name, birthdate, gender, orientation,
             height_ft, height_in, body_type, ethnicity,
             smokes, drinks, profession, current_location,
-            hometown, looking_for
+            hometown, looking_for, picture_url
         } = req.body;
         // Validate the user_id
         const userId = parseUserId(user_id); // This will throw an error if invalid
@@ -73,7 +73,8 @@ profilesRouter.post('/', async (req, res) => {
                 profession,
                 current_location,
                 hometown,
-                looking_for
+                looking_for,
+                picture_url
             }
         });
 

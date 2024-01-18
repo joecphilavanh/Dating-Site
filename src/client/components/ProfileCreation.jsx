@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import UploadWidget from "./UploadWidget";
 const ProfileCreation = () => {
   const { userId } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -10,18 +11,33 @@ const ProfileCreation = () => {
     birthdate: '',
     gender: '',
     orientation: '',
-    height_ft: '0',
-    height_in: '0',
+    height_ft: '',
+    height_in: '',
     body_type: '',
     ethnicity: '',
-    smokes: '', // Dropdown option
-    drinks: '', // Dropdown option
+    smokes: '',
+    drinks: '',
     profession: '',
     hometown: '',
     current_location: '',
     looking_for: '',
+    picture_url: '',
   });
 
+  // Function to handle setting the public ID from Cloudinary
+  const handleSetPublicId = (publicId) => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      picture_url: `https://res.cloudinary.com/dtnm1xt5q/image/upload/${publicId}` // Construct the full URL using the publicId
+    }));
+  };
+
+  // Cloudinary widget configuration
+  const uwConfig = {
+    cloudName: 'dtnm1xt5q',
+    uploadPreset: 'puckerup', // Replace with your actual unsigned upload preset
+    folder: 'puckerup', // Optional if you have set the folder in the preset
+  };
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData(prevFormData => ({
@@ -38,6 +54,7 @@ const ProfileCreation = () => {
       height_in: parseInt(formData.height_in, 10), // Convert to integer
       user_id: userId,
     };
+
 
     try {
       const response = await fetch('http://localhost:3000/profile', {
@@ -61,6 +78,10 @@ const ProfileCreation = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Name input */}
           <div>
+            <label htmlFor="picture_url" className="block mb-2 font-bold text-red-600">Profile Picture:</label>
+            {/* Cloudinary Upload Widget */}
+            <UploadWidget uwConfig={uwConfig} setPublicId={handleSetPublicId} />
+
             <label htmlFor="name" className="block mb-2 font-bold text-red-600">Name:</label>
             <input
                 type="text"
