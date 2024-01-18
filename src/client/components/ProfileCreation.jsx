@@ -95,7 +95,10 @@ const ProfileCreation = () => {
                 onChange={handleInputChange}
                 className="w-full p-3 rounded-md border border-gray-300 text-lg"
             >
-              {/* Gender options */}
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="non-binary">Non-binary</option>
             </select>
           </div>
 
@@ -109,11 +112,15 @@ const ProfileCreation = () => {
                 onChange={handleInputChange}
                 className="w-full p-3 rounded-md border border-gray-300 text-lg"
             >
-              {/* Orientation options */}
+              <option value="">Select Orientation</option>
+              <option value="straight">Straight</option>
+              <option value="gay">Gay</option>
+              <option value="bisexual">Bisexual</option>
+              {/* Add other orientation options as needed */}
             </select>
           </div>
 
-          {/* Height selection */}
+          {/* Height input */}
           <div>
             <label className="block mb-2 font-bold text-red-600">Height:</label>
             <div className="grid grid-cols-4 gap-2 items-center">
@@ -148,7 +155,14 @@ const ProfileCreation = () => {
                 onChange={handleInputChange}
                 className="w-full p-3 rounded-md border border-gray-300 text-lg"
             >
-              {/* Body type options */}
+              <option value="">Select Body Type</option>
+              <option value="slim">Slim</option>
+              <option value="athletic">Athletic</option>
+              <option value="average">Average</option>
+              <option value="curvy">Curvy</option>
+              <option value="muscular">Muscular</option>
+              <option value="full_figured">Full Figured</option>
+              {/* Add other body type options as needed */}
             </select>
           </div>
 
@@ -162,7 +176,13 @@ const ProfileCreation = () => {
                 onChange={handleInputChange}
                 className="w-full p-3 rounded-md border border-gray-300 text-lg"
             >
-              {/* Ethnicity options */}
+              <option value="">Select Ethnicity</option>
+              <option value="asian">Asian</option>
+              <option value="black">Black</option>
+              <option value="latino">Latino</option>
+              <option value="white">White</option>
+              <option value="mixed">Mixed</option>
+              {/* Add other ethnicity options as needed */}
             </select>
           </div>
 
@@ -176,7 +196,9 @@ const ProfileCreation = () => {
                 onChange={handleInputChange}
                 className="w-full p-3 rounded-md border border-gray-300 text-lg"
             >
-              {/* Smoking options */}
+              <option value="">Select Option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
             </select>
           </div>
 
@@ -190,7 +212,9 @@ const ProfileCreation = () => {
                 onChange={handleInputChange}
                 className="w-full p-3 rounded-md border border-gray-300 text-lg"
             >
-              {/* Drinking options */}
+              <option value="">Select Option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
             </select>
           </div>
 
@@ -230,10 +254,16 @@ const ProfileCreation = () => {
                 onChange={handleInputChange}
                 className="w-full p-3 rounded-md border border-gray-300 text-lg"
             >
-              {/* Looking for options */}
+              <option value="">Select What You're Looking For</option>
+              <option value="friendship">Friendship</option>
+              <option value="dating">Dating</option>
+              <option value="long_term_relationship">Long-Term Relationship</option>
+              <option value="casual_encounters">Casual Encounters</option>
+              {/* Add other looking for options as needed */}
             </select>
           </div>
 
+          {/* Submit button */}
           <button type="submit" className="bg-red-600 text-white p-3 rounded-md cursor-pointer text-lg transition duration-300 hover:bg-purple-500">
             Create Profile
           </button>
