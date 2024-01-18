@@ -3,60 +3,49 @@ import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
     const navigate = useNavigate();
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout } = useAuth(); // Destructuring isLoggedIn and logout from the context
 
+    // Handle the logout process
     const handleLogout = () => {
-        logout();
-        navigate("/");
+        logout(); // Call the logout function from your Auth context
+        navigate("/"); // Redirect to the home page after logging out
     };
 
     return (
-        <nav className="bg-gray-800 flex justify-between items-center p-2 text-white shadow-md">
-            <div className="flex items-center">
+        <nav className="navbar">
+            <div className="navbar-left">
                 <Link to="/">
                     <img
-                        src="logohearts.png"
+                        src="src/client/assets/Spark-logo.png"
                         alt="Pucker Up Logo"
-                        className="max-h-[100px] h-auto ml-4"
+                        className="logo-image"
                     />
                 </Link>
             </div>
+            {/* Conditional rendering based on the isLoggedIn state */}
             {isLoggedIn && (
-                <div className="flex items-center space-x-4 mr-4">
-                    <Link
-                        to="/matches"
-                        className="text-white hover:text-red-500 transition duration-300"
-                    >
+                <div className="navbar-right">
+                    {/* Navigation links that are shown when the user is logged in */}
+                    <Link to="/matches" className="navbar-link">
                         Matches
                     </Link>
-                    <Link
-                        to="/profile"
-                        className="text-white hover:text-red-500 transition duration-300"
-                    >
+                    <Link to="/profile" className="navbar-link">
                         Profile
                     </Link>
-                    <Link
-                        to="/notifications"
-                        className="text-white hover:text-red-500 transition duration-300"
-                    >
+                    <Link to="/notifications" className="navbar-link">
                         Notifications
                     </Link>
-                    <Link
-                        to="/chat"
-                        className="text-white hover:text-red-500 transition duration-300"
-                    >
+                    <Link to="/chat" className="navbar-link">
                         Chat
                     </Link>
-                    <Link
-                        to="/createprofile"
-                        className="text-white hover:text-red-500 transition duration-300"
-                    >
+                    <Link to="/createprofile" className="navbar-link">
                         Create Profile
                     </Link>
-                    <button
-                        onClick={handleLogout}
-                        className="text-red-500 px-2 py-1 rounded-md border border-red-500 hover:text-red-600 hover:bg-gray-800 transition duration-300"
-                    >
+                    <Link to="/DiscoveringPeople" className="navbar-link">
+                        Discovering New People
+                    </Link>
+                    {/* Logout button */}
+                    <button onClick={handleLogout} className="navbar-link button">
                         Logout
                     </button>
                 </div>
