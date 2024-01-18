@@ -8,13 +8,14 @@ import Profile from "./components/Profile";
 import Matches from "./components/Matches";
 import Login from "./components/Login";
 import { AuthProvider } from "./context/AuthContext";
+import DiscoveringPeople from "./components/DiscoveringPeople";
 
 
 const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <Nav /> {/* Render the Nav component at the top level */}
+        <Nav />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/chat" element={<ChatRoom />} />
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/matches" element={<Matches />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/discover" element={<DiscoveringPeople />} />
         </Routes>
       </Router>
     </AuthProvider>

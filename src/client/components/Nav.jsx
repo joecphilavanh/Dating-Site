@@ -24,6 +24,11 @@ function Navbar() {
             {isLoggedIn && (
                 <div className="flex items-center space-x-4 mr-4">
                     <Link
+                        to="/discover"
+                        className="text-white hover:text-red-500 transition duration-300">
+                        Discover
+                    </Link>
+                    <Link
                         to="/matches"
                         className="text-white hover:text-red-500 transition duration-300"
                     >
@@ -53,6 +58,7 @@ function Navbar() {
                     >
                         Create Profile
                     </Link>
+
                     <button
                         onClick={handleLogout}
                         className="text-red-500 px-2 py-1 rounded-md border border-red-500 hover:text-red-600 hover:bg-gray-800 transition duration-300"
