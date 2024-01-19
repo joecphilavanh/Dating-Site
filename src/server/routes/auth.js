@@ -8,7 +8,6 @@ const { PrismaClient } = require("@prisma/client");
 const router = express.Router();
 const prisma = new PrismaClient();
 
-// Registration endpoint
 
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
@@ -30,7 +29,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login endpoint
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 

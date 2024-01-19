@@ -35,8 +35,8 @@ const ProfileCreation = () => {
   // Cloudinary widget configuration
   const uwConfig = {
     cloudName: 'dtnm1xt5q',
-    uploadPreset: 'puckerup', // Replace with your actual unsigned upload preset
-    folder: 'puckerup', // Optional if you have set the folder in the preset
+    uploadPreset: 'puckerup',
+    folder: 'puckerup',
   };
   const handleInputChange = (event) => {
     const { name, value } = event.target;
