@@ -7,11 +7,11 @@ const cors = require('cors');
 
 app.use(cors());
 
-const authRoutes = require('./routes/auth');
-const profileRoutes = require('./routes/profileRoutes');
+const authRoutes = require('./api/routes/auth');
+const profileRoutes = require('./api/routes/profileRoutes');
 
-app.use("/auth", authRoutes);
-app.use("/profile", profileRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
 
 // Serve static files
 const viteBuildPath = path.join(process.cwd(), 'dist');
