@@ -1,8 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const ViteExpress = require("vite-express");
-const authRoutes = require("./routes/auth.js");
-const profileRoutes = require("./routes/profileRoutes.js");
+const authRoutes = require("./api/routes/auth.js");
+const profileRoutes = require("./api/routes/profileRoutes.js");
+const app = express();
+
 const cors = require("cors");
 const app = express();
 
