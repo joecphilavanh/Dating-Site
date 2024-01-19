@@ -1,22 +1,15 @@
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
+const ViteExpress = require("vite-express");
+const authRoutes = require("./routes/auth.js");
+const profileRoutes = require("./routes/profileRoutes.js");
 const app = express();
-
-const path = require('path');
-const port = process.env.PORT || 3000;
-const cors = require('cors');
-
+const cors = require("cors");
 app.use(cors());
-
-const authRoutes = require('./routes/auth');
-const profileRoutes = require('./routes/profileRoutes');
+app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
-
-// Serve static files
-const viteBuildPath = path.join(process.cwd(), 'dist');
-app.use(express.static(viteBuildPath));
-
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+ViteExpress.listen(app, 3000, () =>
+  console.log("Server is listening on port 3000...")
+);

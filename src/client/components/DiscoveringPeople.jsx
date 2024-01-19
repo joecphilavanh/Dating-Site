@@ -11,7 +11,7 @@ const FetchProfiles = () => {
             try {
                 const { data, error } = await supabase
                     .from('Profiles')
-                    .select( 'picture_url');
+                    .select('picture_url');
 
                 if (error) {
                     console.log('Error fetching data: ' + error.message);
