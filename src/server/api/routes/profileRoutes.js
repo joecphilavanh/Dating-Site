@@ -34,33 +34,6 @@ profilesRouter.get("/:userId", async (req, res) => {
 });
 
 // POST a new user profile
-<<<<<<< HEAD:src/server/routes/profileRoutes.js
-profilesRouter.post("/", async (req, res) => {
-  try {
-    const {
-      user_id,
-      name,
-      birthdate,
-      gender,
-      orientation,
-      height_ft,
-      height_in,
-      body_type,
-      ethnicity,
-      smokes,
-      drinks,
-      profession,
-      current_location,
-      hometown,
-      looking_for,
-    } = req.body;
-    // Validate the user_id
-    const userId = parseUserId(user_id); // This will throw an error if invalid
-
-    // Validate the birthdate format
-    if (!isValidDate(birthdate)) {
-      return res.status(400).send("Invalid birthdate format. Use YYYY-MM-DD.");
-=======
 profilesRouter.post('/', async (req, res) => {
     try {
         const {
@@ -110,7 +83,6 @@ profilesRouter.post('/', async (req, res) => {
     } catch (error) {
         console.error('Error creating profile:', error);
         res.status(500).send(error.message);
->>>>>>> 20c9f3e7f13e5fb486a3c419d279c5d6babfc9a5:src/server/api/routes/profileRoutes.js
     }
 
     // Convert birthdate to JavaScript Date object
