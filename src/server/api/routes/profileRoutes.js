@@ -34,6 +34,7 @@ profilesRouter.get("/:userId", async (req, res) => {
 });
 
 // POST a new user profile
+<<<<<<< HEAD:src/server/routes/profileRoutes.js
 profilesRouter.post("/", async (req, res) => {
   try {
     const {
@@ -59,6 +60,57 @@ profilesRouter.post("/", async (req, res) => {
     // Validate the birthdate format
     if (!isValidDate(birthdate)) {
       return res.status(400).send("Invalid birthdate format. Use YYYY-MM-DD.");
+=======
+profilesRouter.post('/', async (req, res) => {
+    try {
+        const {
+            user_id, name, birthdate, gender, orientation,
+            height_ft, height_in, body_type, ethnicity,
+            smokes, drinks, profession, current_location,
+            hometown, looking_for, picture_url
+        } = req.body;
+        // Validate the user_id
+        const userId = parseUserId(user_id); // This will throw an error if invalid
+
+        // Validate the birthdate format
+        if (!isValidDate(birthdate)) {
+            return res.status(400).send('Invalid birthdate format. Use YYYY-MM-DD.');
+        }
+
+        // Convert birthdate to JavaScript Date object
+        const formattedBirthdate = new Date(birthdate);
+
+        const smokesBool = smokes === 'yes';
+        const drinksBool = drinks === 'yes';
+        
+        // Create a new profile
+        const newProfile = await prisma.profiles.create({
+            data: {
+                user_id: userId,
+                name,
+                birthdate: formattedBirthdate,
+                gender,
+                orientation,
+                height_ft,
+                height_in,
+                body_type,
+                ethnicity,
+                smokes: smokesBool,
+                drinks: drinksBool,
+                profession,
+                current_location,
+                hometown,
+                looking_for,
+                picture_url
+            }
+        });
+
+        // Send the created profile as a response
+        res.status(201).json(newProfile);
+    } catch (error) {
+        console.error('Error creating profile:', error);
+        res.status(500).send(error.message);
+>>>>>>> 20c9f3e7f13e5fb486a3c419d279c5d6babfc9a5:src/server/api/routes/profileRoutes.js
     }
 
     // Convert birthdate to JavaScript Date object

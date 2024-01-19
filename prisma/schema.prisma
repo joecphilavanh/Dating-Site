@@ -38,20 +38,20 @@ model Messages {
 model Profiles {
   profile_id            Int      @id @default(autoincrement())
   user_id               Int
-  picture_url           String?  @db.VarChar(255) // Optional field for picture URL
-  video_url             String?  @db.VarChar(255) // Optional field for video URL
+  picture_url           String?  @db.VarChar(255)
+  video_url             String?  @db.VarChar(255)
   username              String?  @db.VarChar(50)
   name                  String   @db.VarChar(255)
   birthdate             DateTime @db.Date
   gender                String   @db.VarChar(50)
   orientation           String   @db.VarChar(50)
-  height_ft             Int // Height in feet
-  height_in             Int // Height in inches
+  height_ft             Int
+  height_in             Int
   body_type             String?  @db.VarChar(50)
   ethnicity             String?  @db.VarChar(50)
-  smokes                Boolean // True if the user smokes
-  drinks                Boolean // True if the user drinks
-  profession            String?  @db.VarChar(255) // User's profession
+  smokes                Boolean
+  drinks                Boolean
+  profession            String?  @db.VarChar(255)
   current_location      String?  @db.VarChar(255)
   hometown              String?  @db.VarChar(255)
   bio                   String?
