@@ -8,8 +8,8 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-app.use("/auth", authRoutes);
-app.use("/profile", profileRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000...")
 );
