@@ -1,6 +1,7 @@
 import { useEffect, useState} from "react";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../supabase";
+
 const Profile = () => {
   const { userId, token, isLoggedIn } = useAuth(); // Destructuring token from useAuth
   const [formData, setFormData] = useState({});
@@ -34,29 +35,37 @@ const Profile = () => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const token = localStorage.getItem('token'); // Retrieve the token from localStorage
-    if (!token) {
-      console.error("No token found");
-      return;
-    }
 
     try {
-      const { data, error } = await supabase
-          .from("Profiles")
-          .update(formData)
-          .eq("user_id", userId)
-          .select()
-          .single(); // If you're expecting a single record
-
-      if (error) {
-        console.log(error);
+      const token = localStorage.getItem('token'); // Retrieve the token from localStorage
+      if (!token) {
+        console.error("No token found");
+        return;
       }
 
-      console.log("Update successful:", data);
+      const response = await fetch(`/api/profile/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Include the authorization token
+        },
+        body: JSON.stringify(formData), // Send the updated profile data
+      });
+
+      if (response.ok) {
+        const updatedProfile = await response.json();
+        console.log("Update successful:", updatedProfile);
+
+        // Redirect to /matches after a successful update
+        window.location.href = '/matches';
+      } else {
+        console.error("Error updating profile:", response.statusText);
+      }
     } catch (error) {
-      console.error("Error updating data:", error.message);
+      console.error("Error updating profile:", error.message);
     }
   };
+
 
 
 
