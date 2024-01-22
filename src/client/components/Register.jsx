@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { supabase } from "../supabase";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +21,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
+    console.log(formData);
 
     try {
       const response = await fetch("http://localhost:3000/auth/register", {
