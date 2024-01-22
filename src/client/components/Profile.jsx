@@ -35,38 +35,19 @@ const Profile = () => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-<<<<<<< HEAD
-    const token = localStorage.getItem("token"); // Retrieve the token from localStorage
-    if (!token) {
-      console.error("No token found");
-      return;
-    }
 
     try {
-      const { data, error } = await supabase
-        .from("Profiles")
-        .update(formData)
-        .eq("user_id", userId)
-        .select()
-        .single(); // If you're expecting a single record
-
-      if (error) {
-        console.log(error);
-=======
-
-    try {
-      const token = localStorage.getItem('token'); // Retrieve the token from localStorage
+      const token = localStorage.getItem("token"); // Retrieve the token from localStorage
       if (!token) {
         console.error("No token found");
         return;
->>>>>>> 2c5f8c36a3e1346f15858dceda20d030a0f78b34
       }
 
       const response = await fetch(`/api/profile/${userId}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Include the authorization token
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Include the authorization token
         },
         body: JSON.stringify(formData), // Send the updated profile data
       });
@@ -76,7 +57,7 @@ const Profile = () => {
         console.log("Update successful:", updatedProfile);
 
         // Redirect to /matches after a successful update
-        window.location.href = '/matches';
+        window.location.href = "/matches";
       } else {
         console.error("Error updating profile:", response.statusText);
       }
@@ -85,12 +66,6 @@ const Profile = () => {
     }
   };
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 2c5f8c36a3e1346f15858dceda20d030a0f78b34
   useEffect(() => {
     console.log("Updated Profile:", formData);
   }, [formData]);

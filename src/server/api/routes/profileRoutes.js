@@ -16,8 +16,9 @@ profilesRouter.get("/", async (req, res) => {
 });
 
 // GET a user's profile by user_id
-<<<<<<< HEAD
 profilesRouter.get("/:userId", async (req, res) => {
+  const { userId } = req.params; // Correctly access userId from req.params
+
   try {
     const profile = await prisma.profiles.findUnique({
       where: { user_id: userId },
@@ -26,23 +27,6 @@ profilesRouter.get("/:userId", async (req, res) => {
       res.json(profile);
     } else {
       res.status(404).send("Profile not found");
-=======
-profilesRouter.get('/:userId', async (req, res) => {
-    const { userId } = req.params; // Correctly access userId from req.params
-
-    try {
-        const profile = await prisma.profiles.findUnique({
-            where: { user_id: userId }
-        });
-        if (profile) {
-            res.json(profile);
-        } else {
-            res.status(404).send('Profile not found');
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).send(error.message);
->>>>>>> 2c5f8c36a3e1346f15858dceda20d030a0f78b34
     }
   } catch (error) {
     console.error(error);
@@ -114,58 +98,42 @@ profilesRouter.post("/", async (req, res) => {
 });
 
 // PUT to update a user's profile by user_id
-<<<<<<< HEAD
-profilesRouter.put("/:userId", async (req, res) => {
+// PUT to update a user's profile by user_id
+profilesRouter.put("/:profileId", async (req, res) => {
+  const { profileId } = req.params; // Get the profileId from the route params
+  const { name, gender } = req.body;
+
+  console.log(`Received PUT request for profileId: ${profileId}`);
+  console.log(`Updated name: ${name}, gender: ${gender}`);
+
   try {
-    const updatedProfile = await prisma.profiles.update({
-      where: { user_id: userId },
-      data: req.body,
+    // Ensure that the profile exists
+    const existingProfile = await prisma.profiles.findUnique({
+      where: { profile_id: profileId }, // Use the dynamically retrieved profileId
     });
+
+    if (!existingProfile) {
+      console.log("Profile not found");
+      return res.status(404).send("Profile not found");
+    }
+
+    // Update the profile data
+    const updatedProfile = await prisma.profiles.update({
+      where: { profile_id: profileId }, // Use the dynamically retrieved profileId
+      data: {
+        name, // Update the name field
+        gender, // Update the gender field
+      },
+    });
+
+    console.log("Update successful:", updatedProfile);
+
     res.json(updatedProfile);
   } catch (error) {
-    console.error(error);
+    console.error("Error updating profile:", error);
     res.status(500).send(error.message);
   }
-=======
-// PUT to update a user's profile by user_id
-profilesRouter.put('/:profileId', async (req, res) => {
-    const { profileId } = req.params; // Get the profileId from the route params
-    const { name, gender } = req.body;
-
-    console.log(`Received PUT request for profileId: ${profileId}`);
-    console.log(`Updated name: ${name}, gender: ${gender}`);
-
-    try {
-        // Ensure that the profile exists
-        const existingProfile = await prisma.profiles.findUnique({
-            where: { profile_id: profileId } // Use the dynamically retrieved profileId
-        });
-
-        if (!existingProfile) {
-            console.log('Profile not found');
-            return res.status(404).send('Profile not found');
-        }
-
-        // Update the profile data
-        const updatedProfile = await prisma.profiles.update({
-            where: { profile_id: profileId }, // Use the dynamically retrieved profileId
-            data: {
-                name, // Update the name field
-                gender // Update the gender field
-            }
-        });
-
-        console.log('Update successful:', updatedProfile);
-
-        res.json(updatedProfile);
-    } catch (error) {
-        console.error('Error updating profile:', error);
-        res.status(500).send(error.message);
-    }
->>>>>>> 2c5f8c36a3e1346f15858dceda20d030a0f78b34
 });
-
-
 
 // DELETE a user's profile by user_id
 profilesRouter.delete("/:userId", async (req, res) => {
