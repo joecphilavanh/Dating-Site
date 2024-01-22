@@ -88,11 +88,9 @@ profilesRouter.post('/', async (req, res) => {
 
 
 // PUT to update a user's profile by user_id
-// PUT to update a user's profile by user_id
 profilesRouter.put('/:profileId', async (req, res) => {
     const { profileId } = req.params; // Get the profileId from the route params
     const { name, gender } = req.body;
-
     console.log(`Received PUT request for profileId: ${profileId}`);
     console.log(`Updated name: ${name}, gender: ${gender}`);
 
@@ -104,7 +102,7 @@ profilesRouter.put('/:profileId', async (req, res) => {
 
         if (!existingProfile) {
             console.log('Profile not found');
-            return res.status(404).send('Profile not found');
+            return res.status(420).send('Profile not found');
         }
 
         // Update the profile data
@@ -123,6 +121,7 @@ profilesRouter.put('/:profileId', async (req, res) => {
         console.error('Error updating profile:', error);
         res.status(500).send(error.message);
     }
+res.send('PUT request received');
 });
 
 
