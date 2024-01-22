@@ -12,6 +12,13 @@ const prisma = new PrismaClient();
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
   try {
+    // Check if the username already exists
+    const existingUser = await prisma.users.findUnique({ where: { username } });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "Username is already taken" });
+    }
+
     const hashedPassword = await hashPassword(password);
     const user = await prisma.users.create({
       data: { username, email, password_hash: hashedPassword },
@@ -30,6 +37,7 @@ router.post("/register", async (req, res) => {
     });
   }
 });
+
 
 
 
