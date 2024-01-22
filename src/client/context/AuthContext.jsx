@@ -1,5 +1,8 @@
 import { createContext, useState, useContext, useEffect } from 'react';
-import { supabase } from '../supabase';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_KEY;
 
 export const AuthContext = createContext();
 
@@ -7,36 +10,32 @@ export const useAuth = () => {
     return useContext(AuthContext);
 };
 
-const setSupabaseJwt = (token) => {
-    supabase.auth.session = () => ({
-        access_token: token,
-        token_type: "bearer",
-        user: null,
-        expires_at: null,
-        refresh_token: null
+const createSupabaseClientWithToken = (token) => {
+    return createClient(supabaseUrl, supabaseAnonKey, {
+        global: {
+            headers: token ? { Authorization: `Bearer ${token}` } : {}
+        }
     });
 };
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [customSupabaseClient, setCustomSupabaseClient] = useState(null);
 
     useEffect(() => {
-        const checkAuthentication = async () => {
-            const token = localStorage.getItem('token');
-            const savedUserId = localStorage.getItem('user_id');
+        const token = localStorage.getItem('token');
+        const savedUserId = localStorage.getItem('user_id');
 
-            if (token && savedUserId) {
-                setIsLoggedIn(true);
-                setUserId(savedUserId);
-                setSupabaseJwt(token); // Set JWT in Supabase client
-            } else {
-                setIsLoggedIn(false);
-                setUserId(null);
-            }
-        };
-
-        checkAuthentication();
+        if (token && savedUserId) {
+            setIsLoggedIn(true);
+            setUserId(savedUserId);
+            setCustomSupabaseClient(createSupabaseClientWithToken(token));
+        } else {
+            setIsLoggedIn(false);
+            setUserId(null);
+            setCustomSupabaseClient(null);
+        }
     }, []);
 
     const login = (token, userId) => {
@@ -44,8 +43,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', token);
         localStorage.setItem('user_id', userId);
         setUserId(userId);
-
-        setSupabaseJwt(token);
+        setCustomSupabaseClient(createSupabaseClientWithToken(token));
     };
 
     const logout = () => {
@@ -53,17 +51,18 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
         localStorage.removeItem('user_id');
         setUserId(null);
-
-
-        supabase.auth.signOut();
+        setCustomSupabaseClient(null);
     };
 
     const value = {
         isLoggedIn,
         login,
         logout,
-        userId
+        userId,
+        supabase: customSupabaseClient
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export default AuthProvider;
