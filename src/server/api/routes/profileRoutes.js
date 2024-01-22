@@ -2,7 +2,7 @@ const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const profilesRouter = express.Router();
-const { parseUserId, isValidDate } = require("../auth/utils.js");
+const { isValidDate } = require("../auth/utils.js");
 
 // GET all user profiles
 profilesRouter.get("/", async (req, res) => {
@@ -18,7 +18,6 @@ profilesRouter.get("/", async (req, res) => {
 // GET a user's profile by user_id
 profilesRouter.get("/:userId", async (req, res) => {
   try {
-    const userId = parseUserId(req.params.userId);
     const profile = await prisma.profiles.findUnique({
       where: { user_id: userId },
     });
@@ -54,8 +53,6 @@ profilesRouter.post("/", async (req, res) => {
       looking_for,
       picture_url,
     } = req.body;
-    // Validate the user_id
-    const userId = parseUserId(user_id); // This will throw an error if invalid
 
     // Validate the birthdate format
     if (!isValidDate(birthdate)) {
@@ -71,7 +68,7 @@ profilesRouter.post("/", async (req, res) => {
     // Create a new profile
     const newProfile = await prisma.profiles.create({
       data: {
-        user_id: userId,
+        user_id, // Directly use the user_id from the request
         name,
         birthdate: formattedBirthdate,
         gender,
@@ -98,12 +95,9 @@ profilesRouter.post("/", async (req, res) => {
   }
 });
 
-module.exports = profilesRouter;
-
 // PUT to update a user's profile by user_id
 profilesRouter.put("/:userId", async (req, res) => {
   try {
-    const userId = parseUserId(req.params.userId);
     const updatedProfile = await prisma.profiles.update({
       where: { user_id: userId },
       data: req.body,
@@ -118,7 +112,6 @@ profilesRouter.put("/:userId", async (req, res) => {
 // DELETE a user's profile by user_id
 profilesRouter.delete("/:userId", async (req, res) => {
   try {
-    const userId = parseUserId(req.params.userId);
     await prisma.profiles.delete({
       where: { user_id: userId },
     });

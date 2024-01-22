@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import { supabase } from "../supabase";
 
 export const AuthContext = createContext();
 
@@ -6,53 +7,61 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
+const setSupabaseJwt = (token) => {
+  supabase.auth.session = () => ({
+    access_token: token,
+    token_type: "bearer",
+    user: null,
+    expires_at: null,
+    refresh_token: null,
+  });
+};
+
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState(null); // State for user_id
-  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    // Function to check if the user is already authenticated
     const checkAuthentication = async () => {
-      const storedToken = localStorage.getItem("token");
-      const savedUserId = localStorage.getItem("user_id"); // Get user_id from localStorage
+      const token = localStorage.getItem("token");
+      const savedUserId = localStorage.getItem("user_id");
 
-      if (storedToken && savedUserId) {
+      if (token && savedUserId) {
         setIsLoggedIn(true);
-        setUserId(savedUserId); // Set the user_id in state
-        setToken(storedToken);
+        setUserId(savedUserId);
+        setSupabaseJwt(token); // Set JWT in Supabase client
       } else {
         setIsLoggedIn(false);
         setUserId(null);
-        setToken(null);
       }
-      return token;
     };
 
-    // Call the function to check authentication
     checkAuthentication();
   }, []);
 
   const login = (token, userId) => {
     setIsLoggedIn(true);
     localStorage.setItem("token", token);
-    localStorage.setItem("user_id", userId); // Store user_id in localStorage
-    setUserId(userId); // Update user_id in state
+    localStorage.setItem("user_id", userId);
+    setUserId(userId);
+
+    setSupabaseJwt(token);
   };
 
   const logout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("token");
-    localStorage.removeItem("user_id"); // Remove user_id from localStorage
-    setUserId(null); // Reset user_id in state
+    localStorage.removeItem("user_id");
+    setUserId(null);
+
+    supabase.auth.signOut();
   };
 
   const value = {
     isLoggedIn,
     login,
     logout,
-    userId, // Provide userId in the context
-    token,
+    userId,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
