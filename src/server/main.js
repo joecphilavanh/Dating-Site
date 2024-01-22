@@ -5,7 +5,6 @@ const authRoutes = require("./api/routes/auth.js");
 const profileRoutes = require("./api/routes/profileRoutes.js");
 const cors = require("cors");
 const app = express();
-const cors = require("cors"); // Import the cors middleware
 const path = require("path");
 
 app.use(cors());
