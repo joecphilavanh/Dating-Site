@@ -11,13 +11,12 @@ const FetchProfiles = () => {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const { data, error } = await supabase
-          .from("Profiles")
-          .select("picture_url, name, birthdate, gender, orientation, body_type, ethnicity, looking_for, age_range_preference, drinks, height_ft, height_in, profession, smokes");
-
-        if (error) {
-          console.log("Error fetching data: " + error.message);
-        } else {
+        const response = await fetch(`/api/profile/${userId}`);
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Fetched profile data:", data);
+            setFormData(data);}
+        else {
           setProfiles(data);
         }
       } catch (error) {
