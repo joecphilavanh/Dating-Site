@@ -33,7 +33,23 @@ console.log("Made it to 21");
         res.status(500).send(error.message);
     }
 });
+// GET a random user profile
+profilesRouter.get('/random', async (req, res) => {
+    try {
+        const profiles = await prisma.profiles.findMany();
+        if (profiles.length === 0) {
+            return res.status(404).send('No profiles available');
+        }
 
+        // Select a random profile
+        const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
+
+        res.json(randomProfile);
+    } catch (error) {
+        console.error('Error fetching random profile:', error);
+        res.status(500).send(error.message);
+    }
+});
 // POST a new user profile
 profilesRouter.post('/', async (req, res) => {
     try {
