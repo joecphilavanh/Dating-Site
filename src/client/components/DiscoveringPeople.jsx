@@ -41,6 +41,16 @@ const Discover = () => {
         }
     };
 
+    const Age = (birthdate) => {
+        const today = new Date();
+        const birthDate = new Date(birthdate);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        return age;
+      };
 
     const handleHeartClick = async () => {
         if (!randomProfile || !userId) {
@@ -79,21 +89,35 @@ const Discover = () => {
     }
 
     return (
-
-
-        <div className="discover-container">
-            <div className="profile-card">
-                <img src={randomProfile.picture_url} alt="Profile" />
-                <h2>{randomProfile.name}</h2>
-                <div className="buttons">
-                    <button onClick={handleNextClick}>Next</button>
-                    <button onClick={handleViewProfileClick}>View Profile</button>
-                    <button onClick={handleHeartClick}>Heart</button>
+        <div className="bg-white p-5 rounded-lg max-w-lg mx-auto my-8 shadow-md border border-red-600">
+        <div className="bg-white border-2 border-gray-300 rounded-lg overflow-hidden shadow-lg w-full max-w-3xl h-96 my-4">
+                <div className="flex h-full">
+                   
+                        <img src={randomProfile.picture_url} alt="Profile" className="object-cover h-full w-full" />
+                    
+                   
                 </div>
+            </div>
+            <div className="w-1/2 overflow-y-auto p-4 border-l-2 border-blue-600">
+                        <h2 className="text-lg font-semibold">{randomProfile.name}</h2>
+            <p>Age: {Age(randomProfile.birthdate)}</p> 
+                     
+                    </div>
+            <div className="w-full max-w-3xl flex justify-center space-x-4 mt-4 ">
+            <button className="bg-red-600  text-white p-2 rounded-md transition duration-300 hover:bg-red-700" onClick={handleNextClick}>
+                Next
+            </button>
+            <button className="bg-red-600 text-white p-2 rounded-md transition duration-300 hover:bg-red-700" onClick={handleViewProfileClick}>
+                View Profile
+            </button>
+                <button className="heart-button bg-red-600 text-white p-3 rounded-md cursor-pointer text-lg transition duration-300 hover:bg-purple-600 " onClick={handleHeartClick}>
+                    Like
+                    <span className="top-part"></span>
+                    <span className="bottom-part"></span>
+                </button>
             </div>
         </div>
     );
 };
 
 export default Discover;
-
