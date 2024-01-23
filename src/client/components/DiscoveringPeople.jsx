@@ -6,7 +6,7 @@ const Discover = () => {
     const [randomProfile, setRandomProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    const { userId } = useAuth(); // Retrieve the current user's ID from the authentication context
+    const { userId } = useAuth(); 
 
     useEffect(() => {
         fetchRandomProfile();
@@ -90,19 +90,15 @@ const Discover = () => {
 
     return (
         <div className="bg-white p-5 rounded-lg max-w-lg mx-auto my-8 shadow-md border border-red-600">
-        <div className="bg-white border-2 border-gray-300 rounded-lg overflow-hidden shadow-lg w-full max-w-3xl h-96 my-4">
                 <div className="flex h-full">
                    
                         <img src={randomProfile.picture_url} alt="Profile" className="object-cover h-full w-full" />
                     
                    
                 </div>
-            </div>
-            <div className="w-1/2 overflow-y-auto p-4 border-l-2 border-blue-600">
                         <h2 className="text-lg font-semibold">{randomProfile.name}</h2>
             <p>Age: {Age(randomProfile.birthdate)}</p> 
                      
-                    </div>
             <div className="w-full max-w-3xl flex justify-center space-x-4 mt-4 ">
             <button className="bg-red-600  text-white p-2 rounded-md transition duration-300 hover:bg-red-700" onClick={handleNextClick}>
                 Next
