@@ -1,31 +1,31 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { supabase } from "../supabase";
 
 const Profile = () => {
-  const { userId, token, isLoggedIn } = useAuth(); // Destructuring token from useAuth
+  const { userId, isLoggedIn } = useAuth();
   const [formData, setFormData] = useState({});
-  // const [error, setError] = useState(null);
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("Profiles")
-          .select("*")
-          .eq("user_id", userId);
-        if (error) {
-          console.log("Error fetching data: " + error.message);
-        }
-        setFormData(data[0]);
-        console.log("authentication:", userId, token, isLoggedIn);
-      } catch (error) {
-        console.log(error);
+
+  const fetchProfileData = async () => {
+    try {
+      const response = await fetch(`/api/profile/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Fetched profile data:", data);
+        setFormData(data);
+      } else {
+        console.log("Profile not found for the user");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+    }
+  };
+
+  useEffect(() => {
     if (isLoggedIn) {
       fetchProfileData();
     }
-  }, [userId, token, isLoggedIn]);
+  }, [userId, isLoggedIn]);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
@@ -35,6 +35,12 @@ const Profile = () => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log("Current form data:", formData);
+    const profileId = formData.profile_id;
+    if (!profileId) {
+      console.error("Profile ID not found");
+      return;
+    }
 
     try {
       const token = localStorage.getItem("token"); // Retrieve the token from localStorage
@@ -43,26 +49,31 @@ const Profile = () => {
         return;
       }
 
-      const response = await fetch(`/api/profile/${userId}`, {
+      // Send a PUT request to the backend with the profileId and updated data
+      const response = await fetch(`/api/profile/${profileId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`, // Include the authorization token
         },
-        body: JSON.stringify(formData), // Send the updated profile data
+        body: JSON.stringify({
+          name: formData.name,
+          gender: formData.gender,
+          // Include other fields as necessary
+        }), // Send the updated profile data
       });
 
       if (response.ok) {
         const updatedProfile = await response.json();
         console.log("Update successful:", updatedProfile);
-
-        // Redirect to /matches after a successful update
-        window.location.href = "/matches";
+        // Redirect or update state as necessary
       } else {
         console.error("Error updating profile:", response.statusText);
+        // Handle specific error responses here as needed
       }
     } catch (error) {
       console.error("Error updating profile:", error.message);
+      // Handle unexpected errors here
     }
   };
 
