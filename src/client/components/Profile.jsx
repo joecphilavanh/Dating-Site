@@ -10,10 +10,9 @@ const Profile = () => {
       const response = await fetch(`/api/profile/${userId}`);
       if (response.ok) {
         const data = await response.json();
-        console.log("Fetched profile data:", data);
         setFormData(data);
       } else {
-        console.log("Profile not found for the user");
+        alert("Profile not found.");
       }
     } catch (error) {
       console.error("Error fetching data:", error.message);
@@ -66,8 +65,7 @@ const Profile = () => {
       });
 
       if (response.ok) {
-        const updatedProfile = await response.json();
-        console.log("Update successful:", updatedProfile);
+        alert("Update successful:");
         // Redirect or update state as necessary
       } else {
         console.error("Error updating profile:", response.statusText);
@@ -79,9 +77,6 @@ const Profile = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("Updated Profile:", formData);
-  }, [formData]);
   return (
       <section className="h-screen">
         <div className="flex items-center justify-center bg-gray-100">
