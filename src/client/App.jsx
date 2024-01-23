@@ -8,7 +8,8 @@ import Profile from "./components/Profile";
 import Matches from "./components/Matches";
 import Login from "./components/Login";
 import { AuthProvider } from "./context/AuthContext";
-import DiscoveringUser from "./components/DiscoveringUser";
+import DiscoveringPeople from "./components/DiscoveringPeople";
+import ViewProfile from "./components/ViewProfile";
 
 
 const App = () => {
@@ -24,7 +25,10 @@ const App = () => {
           <Route path="/matches" element={<Matches />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/discover" element={<DiscoveringUser />} />
+          <Route path="/discover" element={<DiscoveringPeople />} />
+          <Route path="/profile/:profileId" element={<ViewProfile />} />
+
+
         </Routes>
       </Router>
     </AuthProvider>
