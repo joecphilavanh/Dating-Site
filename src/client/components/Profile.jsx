@@ -1,35 +1,32 @@
 import { useEffect, useState} from "react";
 import { useAuth } from "../context/AuthContext";
-import { supabase } from "../supabase";
 
 const Profile = () => {
   const { userId, isLoggedIn } = useAuth();
   const [formData, setFormData] = useState({});
 
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const { data, error } = await supabase
-            .from("Profiles")
-            .select("profile_id, name, gender")
-            .eq("user_id", userId);
-        if (error)console.log(error);
-
-        if (data.length > 0) {
-          console.log("Fetched profile data:", data[0]);
-          setFormData(data[0]);
-        } else {
-          console.log("Profile not found for the user");
-        }
-
-      } catch (error) {
-        console.log("Error fetching data:", error.message);
+  const fetchProfileData = async () => {
+    try {
+      const response = await fetch(`/api/profile/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Fetched profile data:", data);
+        setFormData(data);
+      } else {
+        console.log("Profile not found for the user");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+    }
+  };
+
+  useEffect(() => {
     if (isLoggedIn) {
       fetchProfileData();
     }
   }, [userId, isLoggedIn]);
+
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -72,7 +69,6 @@ const Profile = () => {
         const updatedProfile = await response.json();
         console.log("Update successful:", updatedProfile);
         // Redirect or update state as necessary
-        window.location.href = '/matches';
       } else {
         console.error("Error updating profile:", response.statusText);
         // Handle specific error responses here as needed

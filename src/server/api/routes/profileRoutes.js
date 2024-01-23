@@ -17,10 +17,10 @@ profilesRouter.get('/', async (req, res) => {
 
 // GET a user's profile by user_id
 profilesRouter.get('/:userId', async (req, res) => {
-    const { userId } = req.params; // Correctly access userId from req.params
-
+    const { userId } = req.params;
+console.log("Made it to 21");
     try {
-        const profile = await prisma.profiles.findUnique({
+        const profile = await prisma.profiles.findFirst({
             where: { user_id: userId }
         });
         if (profile) {
@@ -121,7 +121,6 @@ profilesRouter.put('/:profileId', async (req, res) => {
         console.error('Error updating profile:', error);
         res.status(500).send(error.message);
     }
-res.send('PUT request received');
 });
 
 
