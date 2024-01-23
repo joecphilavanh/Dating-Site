@@ -34,10 +34,13 @@ const Discover = () => {
     };
 
     const handleViewProfileClick = () => {
-        if (randomProfile) {
+        if (randomProfile && randomProfile.profile_id) {
             navigate(`/profile/${randomProfile.profile_id}`);
+        } else {
+            console.error('Profile ID is missing');
         }
     };
+
 
     const handleHeartClick = async () => {
         if (!randomProfile || !userId) {

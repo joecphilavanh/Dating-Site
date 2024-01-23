@@ -38,24 +38,26 @@ profilesRouter.get('/random', async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-// GET a user's profile by user_id
-profilesRouter.get('/:userId', async (req, res) => {
-    const { userId } = req.params;
+
+// get users profile by profile id
+profilesRouter.get('/:profileId', async (req, res) => {
+    const { profileId } = req.params;
     try {
-        console.log("userId: ", userId)
-        const profile = await prisma.profiles.findFirst({
-            where: { user_id: userId }
+        const profile = await prisma.profiles.findUnique({
+            where: { profile_id: profileId }
         });
         if (profile) {
             res.json(profile);
         } else {
-            res.status(404).send('Profile not found');
+            res.status(404).json({ message: 'Profile not found' });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).send(error.message);
+        res.status(500).send('Internal server error');
     }
 });
+
+
 
 
 // POST a new user profile
