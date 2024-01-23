@@ -48,8 +48,8 @@ const ViewProfile = () => {
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen">
-            <div className="profile-container mx-auto p-6 bg-white shadow-lg rounded-lg border-4 border-red-500">
+        <div className="flex justify-center items-center bg-gray-800 min-h-screen">
+            <div className="profile-container mx-auto p-6 text-white shadow-lg rounded-lg border-4 border-red-500">
                 <div className="text-center">
                     <div className="inline-block p-2">
                         <img
@@ -59,7 +59,7 @@ const ViewProfile = () => {
                         />
                     </div>
                     <h1 className="text-2xl font-semibold text-red-500 mt-4">{profile.name}</h1>
-                    <div className="text-gray-600 text-lg border p-4 rounded-lg bg-gray-50 border-red-500 mt-4">
+                    <div className="text-gray-600 text-lg p-4 rounded-lg  border-red-500 mt-4">
                         <p className="mb-2"><strong>Gender:</strong> {profile.gender}</p>
                         <p className="mb-2"><strong>Orientation:</strong> {profile.orientation}</p>
                         <p className="mb-2"><strong>Body Type:</strong> {profile.body_type}</p>
@@ -77,8 +77,6 @@ const ViewProfile = () => {
             </div>
         </div>
     );
-
-
 
 }
 
