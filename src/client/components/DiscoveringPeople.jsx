@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Discover = () => {
     const [randomProfile, setRandomProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { userId } = useAuth(); // Retrieve the current user's ID from the authentication context
 
     useEffect(() => {
         fetchRandomProfile();
@@ -16,6 +18,7 @@ const Discover = () => {
             const response = await fetch('/api/profile/random');
             if (!response.ok) {
                 alert('Failed to fetch random profile');
+                return;
             }
             const profile = await response.json();
             setRandomProfile(profile);
@@ -32,13 +35,36 @@ const Discover = () => {
 
     const handleViewProfileClick = () => {
         if (randomProfile) {
-            // Use the existing 'get profile by ID' endpoint
             navigate(`/profile/${randomProfile.profile_id}`);
         }
     };
 
-    const handleHeartClick = () => {
-        console.log('Heart clicked');
+    const handleHeartClick = async () => {
+        if (!randomProfile || !userId) {
+            console.log('Profile or user ID missing');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/like', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    liker_id: userId,
+                    liked_id: randomProfile.user_id,
+                }),
+            });
+
+            if (!response.ok) {
+                alert('Failed to send like');
+            }
+
+            console.log('Like sent successfully');
+        } catch (error) {
+            console.error('Error sending like:', error);
+        }
     };
 
     if (loading) {
@@ -65,3 +91,4 @@ const Discover = () => {
 };
 
 export default Discover;
+

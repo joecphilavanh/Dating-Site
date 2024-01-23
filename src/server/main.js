@@ -3,6 +3,7 @@ const express = require("express");
 const ViteExpress = require("vite-express");
 const authRoutes = require("./api/routes/auth.js");
 const profileRoutes = require("./api/routes/profileRoutes.js");
+const likeRoutes = require("./api/routes/likeRoutes.js");
 const cors = require("cors");
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/like", likeRoutes);
 ViteExpress.listen(app, 3000, () =>
     console.log("Server is listening on port 3000...")
 );
