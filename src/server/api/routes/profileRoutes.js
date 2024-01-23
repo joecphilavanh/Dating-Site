@@ -14,12 +14,35 @@ profilesRouter.get('/', async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+// GET a random user profile
+profilesRouter.get('/random', async (req, res) => {
+    try {
+        // Fetch the count of all profiles
+        const totalProfiles = await prisma.profiles.count();
+        if (totalProfiles === 0) {
+            return res.status(404).send('No profiles available');
+        }
 
+        // Generate a random index
+        const randomIndex = Math.floor(Math.random() * totalProfiles);
+
+        // Fetch one profile at the random index
+        const [randomProfile] = await prisma.profiles.findMany({
+            take: 1,
+            skip: randomIndex
+        });
+
+        res.json(randomProfile);
+    } catch (error) {
+        console.error('Error fetching random profile:', error);
+        res.status(500).send(error.message);
+    }
+});
 // GET a user's profile by user_id
 profilesRouter.get('/:userId', async (req, res) => {
     const { userId } = req.params;
-console.log("Made it to 21");
     try {
+        console.log("userId: ", userId)
         const profile = await prisma.profiles.findFirst({
             where: { user_id: userId }
         });
@@ -33,23 +56,8 @@ console.log("Made it to 21");
         res.status(500).send(error.message);
     }
 });
-// GET a random user profile
-profilesRouter.get('/random', async (req, res) => {
-    try {
-        const profiles = await prisma.profiles.findMany();
-        if (profiles.length === 0) {
-            return res.status(404).send('No profiles available');
-        }
 
-        // Select a random profile
-        const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
 
-        res.json(randomProfile);
-    } catch (error) {
-        console.error('Error fetching random profile:', error);
-        res.status(500).send(error.message);
-    }
-});
 // POST a new user profile
 profilesRouter.post('/', async (req, res) => {
     try {
