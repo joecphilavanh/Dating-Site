@@ -89,6 +89,13 @@ const ViewProfile = () => {
                                 <p><strong>Looking For:</strong> {profile.looking_for}</p>
                                 <p><strong>Age Preference:</strong> {profile.age_preference}</p>
                             </div>
+                            <Link
+                                to={`/send-message/${profile.user_id}`} // Use the 'user_id' from the fetched profile
+                                className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md transition duration-300 mt-4"
+                            >
+                                Send Message
+                            </Link>
+
                             <button
                                 onClick={goBack}
                                 className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md transition duration-300 mt-4"
