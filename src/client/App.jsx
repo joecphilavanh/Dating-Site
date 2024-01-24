@@ -12,11 +12,12 @@ import DiscoveringPeople from "./components/DiscoveringPeople";
 import ViewProfile from "./components/ViewProfile";
 import SendMessage from "./components/SendMessage";
 
+
 const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <Nav />
+        <Nav /> {/* Render the Nav component at the top level */}
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/chat" element={<ChatRoom />} />
@@ -27,8 +28,8 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/discover" element={<DiscoveringPeople />} />
           <Route path="/profile/:profileId" element={<ViewProfile />} />
-          <Route path="/send-message/:receiverId" element={<SendMessage />} />
 
+          <Route path="/send-message/:receiverId" element={<SendMessage />} />
         </Routes>
       </Router>
     </AuthProvider>
