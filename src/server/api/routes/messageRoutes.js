@@ -4,6 +4,43 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const messageRoutes = express.Router();
 
+// GET messages for the inbox of a specific user
+messageRoutes.get('/inbox/:userId', async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const messages = await prisma.messages.findMany({
+            where: {
+                OR: [
+                    { sender_id: userId },
+                    { receiver_id: userId }
+                ]
+            },
+            orderBy: {
+                timestamp: 'asc'
+            },
+            include: {
+                Sender: {
+                    select: {
+                        username: true
+                    }
+                }
+            }
+        });
+
+        // Format messages to include sender's name
+        const formattedMessages = messages.map(message => ({
+            ...message,
+            senderName: message.Sender.username
+        }));
+
+        res.json(formattedMessages);
+    } catch (error) {
+        console.error('Error fetching inbox messages:', error);
+        res.status(500).send(error.message);
+    }
+});
+
+
 // POST a new message
 messageRoutes.post('/', async (req, res) => {
     const { sender_id, receiver_id, content } = req.body;
