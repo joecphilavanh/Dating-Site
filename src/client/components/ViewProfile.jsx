@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const ViewProfile = () => {
     const [profile, setProfile] = useState(null);
@@ -100,6 +101,7 @@ const ViewProfile = () => {
             </div>
         </div>
     );
+
 }
 
 export default ViewProfile;
