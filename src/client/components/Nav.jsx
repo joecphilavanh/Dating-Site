@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
     const navigate = useNavigate();
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout, userId } = useAuth();
 
     const handleLogout = () => {
         logout();
@@ -47,10 +47,10 @@ function Navbar() {
                         Notifications
                     </Link>
                     <Link
-                        to="/chat"
+                        to="/dms"
                         className="text-white hover:text-red-500 transition duration-300"
                     >
-                        Chat
+                        DMs
                     </Link>
                     <Link
                         to="/createprofile"
