@@ -23,16 +23,18 @@ export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState(null);
   const [customSupabaseClient, setCustomSupabaseClient] = useState(null);
   const [profileId, setProfileId] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const userToken = localStorage.getItem("token");
     const savedUserId = localStorage.getItem("user_id");
     const savedProfileId = localStorage.getItem("profile_id");
 
-    if (token && savedUserId) {
+    if (userToken && savedUserId) {
       setIsLoggedIn(true);
       setUserId(savedUserId);
-      setCustomSupabaseClient(createSupabaseClientWithToken(token));
+      setToken(userToken);
+      setCustomSupabaseClient(createSupabaseClientWithToken(userToken));
     } else {
       setIsLoggedIn(false);
       setUserId(null);
@@ -73,6 +75,7 @@ export const AuthProvider = ({ children }) => {
     profileId,
     userId,
     supabase: customSupabaseClient,
+    token,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

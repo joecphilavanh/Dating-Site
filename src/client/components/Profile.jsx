@@ -27,7 +27,6 @@ const Profile = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -35,7 +34,6 @@ const Profile = () => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Current form data:", formData);
     const profileId = formData.profile_id;
     if (!profileId) {
       console.error("Profile ID not found");

@@ -113,7 +113,6 @@ profilesRouter.post("/", async (req, res) => {
     });
 
     // Send the created profile as a response
-    console.log(newProfile);
     res.status(201).json(newProfile);
   } catch (error) {
     console.error("Error creating profile:", error);
@@ -125,7 +124,6 @@ profilesRouter.post("/", async (req, res) => {
 profilesRouter.put("/:profileId", async (req, res) => {
   const { profileId } = req.params; // Get the profileId from the route params
   const { name, gender, orientation } = req.body;
-  console.log(orientation);
 
   try {
     // Ensure that the profile exists
