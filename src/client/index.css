@@ -1,3 +1,74 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+
+.heart-button {
+    cursor: pointer;
+    position: relative;
+    padding: 1rem 2rem;
+    background-color: red;
+    color: white;
+    border-radius: 1rem;
+    border: none;
+    transition: background-color 0.25s ease-in-out;
+    overflow: visible;
+    font-size: 1rem;
+    z-index: 1;
+  }
+  
+  .heart-button::before,
+  .heart-button::after,
+  .heart-button span {
+    content: "";
+    position: absolute;
+    background-color: red;
+    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+    opacity: 0;
+    z-index: -1;
+  }
+  
+  .heart-button::before,
+  .heart-button::after {
+    top: 0;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+  }
+  
+  .heart-button::before {
+    left: 50%;
+    transform: translateX(-90%) scale(1) rotate(45deg);
+  }
+  
+  .heart-button::after {
+    left: 50%;
+    transform: translateX(-5%) scale(1) rotate(45deg);
+  }
+  
+  .heart-button span {
+    top: 63%;
+    left: 51%;
+    width: 50px;
+    height: 50px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background-color: red;
+    border-radius: 60px 10px 0 10px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+  }
+  
+  .heart-button:hover {
+    background-color: transparent;
+  }
+  
+  .heart-button:hover::before,
+  .heart-button:hover::after,
+  .heart-button:hover span {
+    opacity: 1;
+  }
+  
+  
