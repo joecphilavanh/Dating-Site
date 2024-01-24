@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 const Profile = () => {
-  const { userId, isLoggedIn, profileId } = useAuth();
+  const { userId, isLoggedIn, profileId, token } = useAuth();
   const [formData, setFormData] = useState({});
 
   const fetchProfileData = async () => {
@@ -43,34 +43,29 @@ const Profile = () => {
     }
 
     try {
-      const token = localStorage.getItem("token"); // Retrieve the token from localStorage
       if (!token) {
         console.error("No token found");
         return;
       }
 
-      // Send a PUT request to the backend with the profileId and updated data
       const response = await fetch(`/api/profile/${profileId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Include the authorization token
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData), // Send the updated profile data
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         alert("Update successful:");
         document.querySelector("#profile-form").reset();
         fetchProfileData();
-        // Redirect or update state as necessary
       } else {
         console.error("Error updating profile:", response.statusText);
-        // Handle specific error responses here as needed
       }
     } catch (error) {
       console.error("Error updating profile:", error.message);
-      // Handle unexpected errors here
     }
   };
 
