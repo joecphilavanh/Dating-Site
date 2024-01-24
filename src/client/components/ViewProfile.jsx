@@ -49,15 +49,12 @@ const ViewProfile = () => {
     if (loading) {
         return <div className="text-center p-10 text-xl">Loading profile...</div>;
     }
-
     if (error) {
         return <div className="text-red-500 text-center p-10 text-xl">{error}</div>;
     }
-
     if (!profile) {
         return <div className="text-gray-500 text-center p-10 text-xl">Profile not found</div>;
     }
-
     return (
         <div style={{ backgroundColor: '#1F2937', maxWidth: '900px' }} className="p-5 rounded-lg mx-auto my-8 shadow-md border-4 border-red-600">
             <div className="bg-white p-5 rounded-lg mx-auto my-8 shadow-md border-4 border-red-600" style={{ maxWidth: '900px' }}>
