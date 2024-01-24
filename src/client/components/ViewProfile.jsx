@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const ViewProfile = () => {
     const [profile, setProfile] = useState(null);
@@ -67,6 +68,13 @@ const ViewProfile = () => {
                         <p className="mb-2"><strong>Looking For:</strong> {profile.looking_for}</p>
                         <p className="mb-2"><strong>Current Location:</strong> {profile.current_location}</p>
                     </div>
+                    <Link
+                        to={`/send-message/${profile.user_id}`} // Use the 'user_id' from the fetched profile
+                        className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md transition duration-300 mt-4"
+                    >
+                        Send Message
+                    </Link>
+
                     <button
                         onClick={goBack}
                         className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md transition duration-300 mt-4"
