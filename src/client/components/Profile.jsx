@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 const Profile = () => {
-  const { userId, isLoggedIn } = useAuth();
+  const { userId, isLoggedIn, profileId } = useAuth();
   const [formData, setFormData] = useState({});
 
   const fetchProfileData = async () => {
     try {
-      const response = await fetch(`/api/profile/${userId}`);
+      const response = await fetch(`/api/profile/${profileId}`);
       if (response.ok) {
         const data = await response.json();
         setFormData(data);
@@ -102,7 +102,23 @@ const Profile = () => {
                   onChange={handleInputChange}
                 />
               </div>
-              {/* Birthday */}
+              {/* Orientation */}
+              <div>
+                <label
+                  htmlFor="orientation"
+                  className="block text-lg font-semibold text-gray-700"
+                >
+                  Orientation:
+                </label>
+                <input
+                  type="text"
+                  id="Orientation"
+                  name="orientation"
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
+                  placeholder={formData.name}
+                  onChange={handleInputChange}
+                />
+              </div>
               {/* Gender */}
               <div>
                 <label

@@ -113,6 +113,7 @@ profilesRouter.post("/", async (req, res) => {
     });
 
     // Send the created profile as a response
+    console.log(newProfile);
     res.status(201).json(newProfile);
   } catch (error) {
     console.error("Error creating profile:", error);

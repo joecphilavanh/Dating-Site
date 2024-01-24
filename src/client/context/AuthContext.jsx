@@ -22,10 +22,12 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
   const [customSupabaseClient, setCustomSupabaseClient] = useState(null);
+  const [profileId, setProfileId] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     const savedUserId = localStorage.getItem("user_id");
+    const savedProfileId = localStorage.getItem("profile_id");
 
     if (token && savedUserId) {
       setIsLoggedIn(true);
@@ -35,6 +37,10 @@ export const AuthProvider = ({ children }) => {
       setIsLoggedIn(false);
       setUserId(null);
       setCustomSupabaseClient(null);
+    }
+
+    if (savedProfileId) {
+      setProfileId(savedProfileId);
     }
   }, []);
 
@@ -54,10 +60,17 @@ export const AuthProvider = ({ children }) => {
     setCustomSupabaseClient(null);
   };
 
+  const setProfile = (profile) => {
+    setProfileId(profile);
+    localStorage.setItem("profile_id", profile);
+  };
+
   const value = {
     isLoggedIn,
     login,
     logout,
+    setProfile,
+    profileId,
     userId,
     supabase: customSupabaseClient,
   };

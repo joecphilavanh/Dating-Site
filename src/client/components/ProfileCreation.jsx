@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import UploadWidget from "./UploadWidget";
 const ProfileCreation = () => {
-  const { userId } = useContext(AuthContext);
+  const { userId, setProfile, profileId } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -56,15 +56,18 @@ const ProfileCreation = () => {
     };
 
     try {
-      // const response = await fetch("http://localhost:3000/api/profile", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(profileData),
-      // });
+      const response = await fetch("http://localhost:3000/api/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profileData),
+      });
+
+      const data = await response.json();
 
       if (!response.ok) {
         alert("Profile creation failed");
       } else {
+        setProfile(data["profile_id"]);
         navigate("/profile");
       }
     } catch (error) {
