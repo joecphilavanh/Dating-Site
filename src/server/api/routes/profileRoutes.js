@@ -124,9 +124,8 @@ profilesRouter.post("/", async (req, res) => {
 // PUT to update a user's profile by user_id
 profilesRouter.put("/:profileId", async (req, res) => {
   const { profileId } = req.params; // Get the profileId from the route params
-  const { name, gender } = req.body;
-  console.log(`Received PUT request for profileId: ${profileId}`);
-  console.log(`Updated name: ${name}, gender: ${gender}`);
+  const { name, gender, orientation } = req.body;
+  console.log(orientation);
 
   try {
     // Ensure that the profile exists
@@ -144,11 +143,10 @@ profilesRouter.put("/:profileId", async (req, res) => {
       where: { profile_id: profileId }, // Use the dynamically retrieved profileId
       data: {
         name, // Update the name field
-        gender, // Update the gender field
+        gender,
+        orientation,
       },
     });
-
-    console.log("Update successful:", updatedProfile);
 
     res.json(updatedProfile);
   } catch (error) {

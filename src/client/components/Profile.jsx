@@ -27,6 +27,7 @@ const Profile = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    console.log(name, value);
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -55,15 +56,13 @@ const Profile = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`, // Include the authorization token
         },
-        body: JSON.stringify({
-          name: formData.name,
-          gender: formData.gender,
-          // Include other fields as necessary
-        }), // Send the updated profile data
+        body: JSON.stringify(formData), // Send the updated profile data
       });
 
       if (response.ok) {
         alert("Update successful:");
+        document.querySelector("#profile-form").reset();
+        fetchProfileData();
         // Redirect or update state as necessary
       } else {
         console.error("Error updating profile:", response.statusText);
@@ -84,7 +83,11 @@ const Profile = () => {
             <h2 className="text-2xl font-bold text-center text-gray-700">
               Update My Profile
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form
+              id="profile-form"
+              onSubmit={handleSubmit}
+              className="space-y-6"
+            >
               {/* Name */}
               <div>
                 <label
@@ -115,7 +118,7 @@ const Profile = () => {
                   id="Orientation"
                   name="orientation"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
-                  placeholder={formData.name}
+                  placeholder={formData.orientation}
                   onChange={handleInputChange}
                 />
               </div>
