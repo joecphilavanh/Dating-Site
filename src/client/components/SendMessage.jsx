@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 
 const SendMessageComponent = () => {
     const [message, setMessage] = useState('');
-    const { receiverId } = useParams(); // Extract receiverId from route parameters
+    const { receiverId } = useParams(); // Get the receiver's user ID from the URL
     const { userId } = useAuth(); // Get the sender's user ID from the AuthContext
     const navigate = useNavigate();
 
@@ -13,7 +13,7 @@ const SendMessageComponent = () => {
         if (!message) return;
 
         try {
-            const token = localStorage.getItem('token'); // Retrieve the JWT from local storage
+            const token = localStorage.getItem('token');
             const response = await fetch('/api/message', {
                 method: 'POST',
                 headers: {

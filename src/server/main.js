@@ -7,7 +7,7 @@ const likeRoutes = require("./api/routes/likeRoutes.js");
 const messageRoutes = require("./api/routes/messageRoutes.js");
 const cors = require("cors");
 const app = express();
-const path = require("path");
+
 
 app.use(cors());
 

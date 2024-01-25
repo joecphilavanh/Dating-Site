@@ -12,12 +12,15 @@ import DiscoveringPeople from "./components/DiscoveringPeople";
 import ViewProfile from "./components/ViewProfile";
 import SendMessage from "./components/SendMessage";
 import Messages from "./components/Messages";
+import Dms from "./components/Dms";
+
+
 
 const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <Nav /> {/* Render the Nav component at the top level */}
+        <Nav />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           {/*<Route path="/chat" element={<ChatRoom />} />*/}
@@ -29,6 +32,7 @@ const App = () => {
           <Route path="/discover" element={<DiscoveringPeople />} />
           <Route path="/profile/:profileId" element={<ViewProfile />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/dms" element={<Dms/>} />
           <Route path="/send-message/:receiverId" element={<SendMessage />} />
         </Routes>
       </Router>
