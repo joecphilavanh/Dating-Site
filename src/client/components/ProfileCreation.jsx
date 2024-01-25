@@ -8,6 +8,7 @@ const ProfileCreation = () => {
 
   const [formData, setFormData] = useState({
     name: "",
+    username: "",
     birthdate: "",
     gender: "",
     orientation: "",
@@ -21,7 +22,9 @@ const ProfileCreation = () => {
     hometown: "",
     current_location: "",
     looking_for: "",
+    age_range_preference: "",
     picture_url: "",
+    bio: "",
   });
 
   // Function to handle setting the public ID from Cloudinary
@@ -40,9 +43,10 @@ const ProfileCreation = () => {
   };
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name]: value || "",
     }));
   };
 
