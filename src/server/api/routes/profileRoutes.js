@@ -63,6 +63,7 @@ profilesRouter.post("/", async (req, res) => {
     const {
       user_id,
       name,
+      username,
       birthdate,
       gender,
       orientation,
@@ -76,7 +77,9 @@ profilesRouter.post("/", async (req, res) => {
       current_location,
       hometown,
       looking_for,
+      age_range_preference,
       picture_url,
+      bio,
     } = req.body;
 
     // Validate the birthdate format
@@ -95,6 +98,7 @@ profilesRouter.post("/", async (req, res) => {
       data: {
         user_id, // Directly use the user_id from the request
         name,
+        username,
         birthdate: formattedBirthdate,
         gender,
         orientation,
@@ -108,7 +112,9 @@ profilesRouter.post("/", async (req, res) => {
         current_location,
         hometown,
         looking_for,
+        age_range_preference,
         picture_url,
+        bio,
       },
     });
 
@@ -123,8 +129,28 @@ profilesRouter.post("/", async (req, res) => {
 // PUT to update a user's profile by user_id
 profilesRouter.put("/:profileId", async (req, res) => {
   const { profileId } = req.params; // Get the profileId from the route params
-  const { name, gender, orientation } = req.body;
-
+  const {
+    user_id,
+    name,
+    username,
+    birthdate,
+    gender,
+    orientation,
+    height_ft,
+    height_in,
+    body_type,
+    ethnicity,
+    smokes,
+    drinks,
+    profession,
+    current_location,
+    hometown,
+    looking_for,
+    age_range_preference,
+    picture_url,
+    bio,
+  } = req.body;
+  console.log();
   try {
     // Ensure that the profile exists
     const existingProfile = await prisma.profiles.findUnique({
@@ -136,13 +162,30 @@ profilesRouter.put("/:profileId", async (req, res) => {
       return res.status(420).send("Profile not found");
     }
 
+    const smokesBool = smokes === "yes";
+    const drinksBool = drinks === "yes";
+
     // Update the profile data
     const updatedProfile = await prisma.profiles.update({
       where: { profile_id: profileId }, // Use the dynamically retrieved profileId
       data: {
         name, // Update the name field
+        username,
         gender,
         orientation,
+        height_ft,
+        height_in,
+        body_type,
+        ethnicity,
+        smokes: smokesBool,
+        drinks: drinksBool,
+        profession,
+        current_location,
+        hometown,
+        looking_for,
+        age_range_preference,
+        picture_url,
+        bio,
       },
     });
 
