@@ -75,25 +75,44 @@ messageRoutes.get('/inbox/:userId', async (req, res) => {
     }
 });
 
-
 // GET messages between two users
-messageRoutes.get('/:senderId/:receiverId', async (req, res) => {
-    const { senderId, receiverId } = req.params;
+messageRoutes.get('/history/:userId/:selectedUserId', async (req, res) => {
+    const { userId, selectedUserId } = req.params;
+
+    // Function to validate UUID
+    const isValidUUID = (uuid) => {
+        const regexExp = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89AB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/i;
+        return regexExp.test(uuid);
+    };
+
+    // Validate UUIDs
+    if (!isValidUUID(userId) || !isValidUUID(selectedUserId)) {
+        return res.status(400).json({ error: 'Invalid user ID format' });
+    }
+
     try {
         const messages = await prisma.messages.findMany({
             where: {
                 OR: [
-                    { sender_id: senderId, receiver_id: receiverId },
-                    { sender_id: receiverId, receiver_id: senderId }
+                    { sender_id: userId, receiver_id: selectedUserId },
+                    { sender_id: selectedUserId, receiver_id: userId }
                 ]
             },
             orderBy: {
                 timestamp: 'asc'
+            },
+            select: {
+                message_id: true,
+                content: true,
+                timestamp: true,
+                sender_id: true,
+                receiver_id: true
             }
         });
+
         res.json(messages);
     } catch (error) {
-        console.error('Error fetching messages:', error);
+        console.error('Error fetching message history:', error);
         res.status(500).send(error.message);
     }
 });

@@ -33,7 +33,7 @@ const App = () => {
           <Route path="/profile/:profileId" element={<ViewProfile />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/dms" element={<Dms/>} />
-          <Route path="/send-message/:receiverId" element={<SendMessage />} />
+          <Route path="/messages/:selectedUserId" element={<Messages />} />
         </Routes>
       </Router>
     </AuthProvider>

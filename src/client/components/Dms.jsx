@@ -31,18 +31,19 @@ const Dms = () => {
 
         if (profile && profile.picture_url) {
             return (
-                <Link to={`/message-history/${dm.user_id}`}>
+                <Link to={`/messages/${dm.user_id}`}>
                     <img src={profile.picture_url} alt={`${dm.username}'s profile`} style={imageSize} className="rounded-full object-cover" />
                 </Link>
             );
         } else {
             return (
-                <Link to={`/message-history/${dm.user_id}`}>
+                <Link to={`/messages/${dm.user_id}`}>
                     <img src="defaultimage.png" alt="Default Avatar" style={imageSize} className="rounded-full object-cover" />
                 </Link>
             );
         }
     };
+
 
     return (
         <div className="p-6 bg-white shadow-lg rounded-lg">
@@ -51,7 +52,9 @@ const Dms = () => {
                 {dms.map(dm => (
                     <li key={dm.user_id} className="flex items-center space-x-4">
                         {renderProfileImage(dm)}
-                        <span className="text-lg text-gray-800">{dm.username}</span>
+                        <Link to={`/messages/${dm.user_id}`} className="text-lg text-gray-800">
+                            {dm.username}
+                        </Link>
                     </li>
                 ))}
             </ul>
