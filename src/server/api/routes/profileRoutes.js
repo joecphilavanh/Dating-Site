@@ -32,6 +32,8 @@ profilesRouter.get("/random", async (req, res) => {
       skip: randomIndex,
     });
 
+    
+    
     res.json(randomProfile);
   } catch (error) {
     console.error("Error fetching random profile:", error);

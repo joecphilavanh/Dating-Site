@@ -92,28 +92,32 @@ const Discover = () => {
   }
 
   return (
-    <div style={{ backgroundColor: '#1F2937', maxWidth: '900px' }} className="p-5 rounded-lg mx-auto my-8 shadow-md border-4 border-red-600">
-    <div className="flex justify-center items-center h-full">
-      <img
-  src={randomProfile.picture_url}
-  alt="Profile"
-  style={{ width: '600px', height: '600px', objectFit: 'cover' }}
-  className="rounded-lg"
-/>
-
+    <div
+      style={{ backgroundColor: "#1F2937", maxWidth: "900px" }}
+      className="p-5 rounded-lg mx-auto my-8 shadow-md border-4 border-red-600"
+    >
+      <div className="flex justify-center items-center h-full">
+        <img
+          src={randomProfile.picture_url}
+          alt="Profile"
+          style={{ width: "600px", height: "600px", objectFit: "cover" }}
+          className="rounded-lg"
+        />
       </div>
-      <h2 className=" text-2xl font-semibold text-white">{randomProfile.name}</h2>
-      <p className="text-white text-3xl">Age: {Age(randomProfile.birthdate)}</p> 
+      <h2 className=" text-2xl font-semibold text-white">
+        {randomProfile.name}
+      </h2>
+      <p className="text-white text-3xl">Age: {Age(randomProfile.birthdate)}</p>
 
       <div className="w-full max-w-3xl flex justify-center space-x-4 mt-4 ">
         <button
-          className="bg-red-600  text-white p-2 rounded-md transition duration-300 hover:bg-red-700"
+          className="bg-red-600  text-white p-2 rounded-md transition duration-300 hover:bg-purple-500"
           onClick={handleNextClick}
         >
           Next
         </button>
         <button
-          className="bg-red-600 text-white p-2 rounded-md transition duration-300 hover:bg-red-700"
+          className="bg-red-600 text-white p-2 rounded-md transition duration-300 hover:bg-purple-500"
           onClick={handleViewProfileClick}
         >
           View Profile
