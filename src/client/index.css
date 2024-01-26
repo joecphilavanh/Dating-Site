@@ -24,7 +24,7 @@
   .heart-button span {
     content: "";
     position: absolute;
-    background-color: red;
+    background-color: purple;
     transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
     opacity: 0;
     z-index: -1;
@@ -54,7 +54,7 @@
     width: 50px;
     height: 50px;
     transform: translate(-50%, -50%) rotate(45deg);
-    background-color: red;
+    background-color: purple;
     border-radius: 60px 10px 0 10px;
     z-index: -1;
     opacity: 0;
