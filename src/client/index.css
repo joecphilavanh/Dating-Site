@@ -71,4 +71,67 @@
     opacity: 1;
   }
   
+
+
+
+  .custom-width {
+    width: 120%;
+    max-width: 600px;
+    margin-left: 8%;
+    margin-top: -130px;
+    background-color: rgba(0, 0, 0, 0.3); 
+    padding: 16px; 
+  }
+  .title-text {
+    font-size: 45px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 4px;
+  }
+  
+  .highlight-text {
+    font-weight: bold;
+    color: white;
+    font-size: 24px;
+  }
+  
+  .regular-text {
+    margin-top: 4px;
+    color: white;
+    margin-bottom: 0px;
+    font-size: 20px;
+  }
+  
+  .final-text {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 16px;
+  }
+  
+  .join-now-button,
+.login-button {
+  padding: 12px 12px;
+  background-color: transparent; 
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+  border: 4px solid white; 
+  margin-right: 20px;
+}
+  
+  .join-now-button:hover,
+  .login-button:hover
+  {
+    background-color: #dc2626;
+  }
+  
+  .custom-width {
+    width: 120%;
+    max-width: 600px;
+    margin-left: 8%;
+    margin-top: -130px;
+  }
   
