@@ -12,14 +12,14 @@ const Messages = () => {
 
     useEffect(() => {
         if (socket) {
-            socket.on('receive_message', (newMessage) => {
-                setMessages(messages => [...messages, newMessage]);
+            socket.on('newMessage', (receivedMessage) => {
+                setMessages(messages => [...messages, receivedMessage]);
             });
         }
 
         return () => {
             if (socket) {
-                socket.off('receive_message');
+                socket.off('newMessage');
             }
         };
     }, [socket]);
