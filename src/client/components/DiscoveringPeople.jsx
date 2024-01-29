@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -8,10 +8,12 @@ const Discover = () => {
   const [like, setLike] = useState(null);
   const navigate = useNavigate();
   const { userId } = useAuth();
+  // const isFirstRender = useRef(true);
 
   useEffect(() => {
-    fetchRandomProfile();
-    fetchLiked();
+    if (userId) {
+      fetchRandomProfile();
+    }
   }, [userId]);
 
   const fetchRandomProfile = async () => {
@@ -26,7 +28,7 @@ const Discover = () => {
       }
       const profile = await response.json();
       setRandomProfile(profile);
-      fetchLiked(profile);
+      fetchLiked(profile.user_id);
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -34,7 +36,7 @@ const Discover = () => {
     }
   };
 
-  const fetchLiked = async (profile) => {
+  const fetchLiked = async (profileId) => {
     try {
       const response = await fetch(`/api/like/liker/${userId}`);
       if (!response.ok) {
@@ -42,15 +44,15 @@ const Discover = () => {
       }
 
       const allLiked = await response.json();
-      searchIfLiked(profile, allLiked);
+      searchIfLiked(profileId, allLiked);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  const searchIfLiked = (profile, likedArray) => {
+  const searchIfLiked = (profileId, likedArray) => {
     likedArray.forEach((element) => {
-      if (profile.user_id === element.liked_id) {
+      if (profileId === element.liked_id) {
         setLike(true);
       }
     });
@@ -60,6 +62,7 @@ const Discover = () => {
 
   const handleNextClick = () => {
     fetchRandomProfile();
+    setRandomProfile(null);
   };
 
   const handleViewProfileClick = () => {
