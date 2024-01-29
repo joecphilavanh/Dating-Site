@@ -9,7 +9,7 @@ const Dms = () => {
     useEffect(() => {
         const fetchDms = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/message/inbox/${userId}`);
+                const response = await fetch(`/api/message/inbox/${userId}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }

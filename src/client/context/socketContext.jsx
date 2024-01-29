@@ -10,7 +10,7 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         // Establish connection with socket.io server
-        const newSocket = io('http://localhost:3000', {
+        const newSocket = io('https://puckerup.onrender.com', {
         });
         setSocket(newSocket);
 

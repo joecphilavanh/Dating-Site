@@ -30,7 +30,7 @@ const Messages = () => {
 
     const fetchMessages = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/message/history/${userId}/${selectedUserId}`);
+            const response = await fetch(`/api/message/history/${userId}/${selectedUserId}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -46,7 +46,7 @@ const Messages = () => {
         if (!newMessage.trim()) return;
 
         try {
-            const response = await fetch('http://localhost:3000/api/message/', {
+            const response = await fetch('/api/message/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
