@@ -1,12 +1,28 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { useSocket} from "../context/socketContext";
 
 const Messages = () => {
     const { selectedUserId } = useParams();
     const { userId } = useContext(AuthContext);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const socket = useSocket();
+
+    useEffect(() => {
+        if (socket) {
+            socket.on('receive_message', (newMessage) => {
+                setMessages(messages => [...messages, newMessage]);
+            });
+        }
+
+        return () => {
+            if (socket) {
+                socket.off('receive_message');
+            }
+        };
+    }, [socket]);
 
     useEffect(() => {
         fetchMessages();
