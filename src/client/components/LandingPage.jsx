@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-const backgroundImage = "/1.png";
+const backgroundImage = "/6.jpg";
 
 const LandingPage = () => {
   const { isLoggedIn } = useAuth();
