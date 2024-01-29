@@ -14,8 +14,6 @@ import SendMessage from "./components/SendMessage";
 import Messages from "./components/Messages";
 import Dms from "./components/Dms";
 
-
-
 const App = () => {
   return (
     <AuthProvider>
@@ -32,7 +30,8 @@ const App = () => {
           <Route path="/discover" element={<DiscoveringPeople />} />
           <Route path="/profile/:profileId" element={<ViewProfile />} />
           <Route path="/messages" element={<Messages />} />
-          <Route path="/dms" element={<Dms/>} />
+          <Route path="/send-message/:receiverId" element={<SendMessage />} />
+          <Route path="/dms" element={<Dms />} />
           <Route path="/messages/:selectedUserId" element={<Messages />} />
         </Routes>
       </Router>
