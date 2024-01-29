@@ -35,6 +35,12 @@ likesRouter.delete("/:likeId", async (req, res) => {
   }
 });
 
+function isValidUUID(uuid) {
+  const uuidRegex =
+    /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+  return uuidRegex.test(uuid);
+}
+
 likesRouter.get("/liked/:userId", async (req, res) => {
   const { userId } = req.params;
 
@@ -79,7 +85,12 @@ likesRouter.get("/liked/:userId", async (req, res) => {
 
 likesRouter.get("/liker/:userId", async (req, res) => {
   const { userId } = req.params;
-  console.log(userId);
+  const validUUID = isValidUUID(userId);
+
+  if (!validUUID) {
+    // Handle invalid UUID
+    console.log("invalid user ID format");
+  }
 
   try {
     const likes = await prisma.likes.findMany({
@@ -87,7 +98,6 @@ likesRouter.get("/liker/:userId", async (req, res) => {
         liker_id: userId,
       },
     });
-    console.log(likes);
 
     res.send(likes);
   } catch (error) {
