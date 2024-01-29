@@ -40,7 +40,7 @@ const Matches = () => {
     const fetchLikes = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`/api/like/${userId}`, {
+        const response = await fetch(`/api/like/liked/${userId}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

@@ -5,29 +5,58 @@ import { useAuth } from "../context/AuthContext";
 const Discover = () => {
   const [randomProfile, setRandomProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [like, setLike] = useState(null);
   const navigate = useNavigate();
   const { userId } = useAuth();
 
   useEffect(() => {
     fetchRandomProfile();
-  }, []);
+    fetchLiked();
+  }, [userId]);
 
   const fetchRandomProfile = async () => {
     try {
       setLoading(true);
+      setLike(false);
       const response = await fetch("/api/profile/random");
+
       if (!response.ok) {
         alert("Failed to fetch random profile");
         return;
       }
       const profile = await response.json();
       setRandomProfile(profile);
+      fetchLiked(profile);
     } catch (error) {
       console.error("Error:", error);
     } finally {
       setLoading(false);
     }
   };
+
+  const fetchLiked = async (profile) => {
+    try {
+      const response = await fetch(`/api/like/liker/${userId}`);
+      if (!response.ok) {
+        return;
+      }
+
+      const allLiked = await response.json();
+      searchIfLiked(profile, allLiked);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const searchIfLiked = (profile, likedArray) => {
+    likedArray.forEach((element) => {
+      if (profile.user_id === element.liked_id) {
+        setLike(true);
+      }
+    });
+  };
+
+  const removeUserFromPool = (userId) => {};
 
   const handleNextClick = () => {
     fetchRandomProfile();
@@ -73,11 +102,11 @@ const Discover = () => {
         }),
       });
 
-      if (!response.ok) {
+      if (response.ok) {
+        setLike(true);
+      } else {
         alert("Failed to send like");
       }
-
-      console.log("Like sent successfully");
     } catch (error) {
       console.error("Error sending like:", error);
     }
@@ -111,25 +140,36 @@ const Discover = () => {
 
       <div className="w-full max-w-3xl flex justify-center space-x-4 mt-4 ">
         <button
-          className="bg-red-600  text-white p-2 rounded-md transition duration-300 hover:bg-purple-500"
+          className="bg-red-600  text-white p-2 rounded-md transition duration-300 hover:bg-red-700"
           onClick={handleNextClick}
         >
           Next
         </button>
         <button
-          className="bg-red-600 text-white p-2 rounded-md transition duration-300 hover:bg-purple-500"
+          className="bg-red-600 text-white p-2 rounded-md transition duration-300 hover:bg-red-700"
           onClick={handleViewProfileClick}
         >
           View Profile
         </button>
-        <button
-          className="heart-button bg-red-600 text-white p-3 rounded-md cursor-pointer text-lg transition duration-300 hover:bg-purple-600 "
-          onClick={handleHeartClick}
-        >
-          Like
-          <span className="top-part"></span>
-          <span className="bottom-part"></span>
-        </button>
+        {like ? (
+          <button
+            className="bg-red-600 text-white p-3 rounded-md cursor-pointer text-lg transition duration-300 hover:bg-purple-600 "
+            // onClick={handleHeartClick}
+          >
+            <span>✅</span>
+            <span className="top-part"></span>
+            <span className="bottom-part"></span>
+          </button>
+        ) : (
+          <button
+            className="heart-button bg-red-600 text-white p-3 rounded-md cursor-pointer text-lg transition duration-300 hover:bg-purple-600 "
+            onClick={handleHeartClick}
+          >
+            Like
+            <span className="top-part"></span>
+            <span className="bottom-part"></span>
+          </button>
+        )}
       </div>
     </div>
   );
