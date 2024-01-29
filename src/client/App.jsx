@@ -13,29 +13,46 @@ import ViewProfile from "./components/ViewProfile";
 import SendMessage from "./components/SendMessage";
 import Messages from "./components/Messages";
 import Dms from "./components/Dms";
+import { SocketProvider } from "./context/socketContext";
 
 const App = () => {
   return (
-    <AuthProvider>
-      <Router>
-        <Nav />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          {/*<Route path="/chat" element={<ChatRoom />} />*/}
-          <Route path="/createprofile" element={<ProfileCreation />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/matches" element={<Matches />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/discover" element={<DiscoveringPeople />} />
-          <Route path="/profile/:profileId" element={<ViewProfile />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/send-message/:receiverId" element={<SendMessage />} />
-          <Route path="/dms" element={<Dms />} />
-          <Route path="/messages/:selectedUserId" element={<Messages />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+      <AuthProvider>
+        <Router>
+          <Nav />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            {/*<Route path="/chat" element={<ChatRoom />} />*/}
+            <Route path="/createprofile" element={<ProfileCreation />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/matches" element={<Matches />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/discover" element={<DiscoveringPeople />} />
+            <Route path="/profile/:profileId" element={<ViewProfile />} />
+            <Route path="/messages" element={
+              <SocketProvider>
+                <Messages />
+              </SocketProvider>
+            } />
+            <Route path="/send-message/:receiverId" element={
+              <SocketProvider>
+                <SendMessage />
+              </SocketProvider>
+            } />
+            <Route path="/dms" element={
+              <SocketProvider>
+                <Dms />
+              </SocketProvider>
+            } />
+            <Route path="/messages/:selectedUserId" element={
+              <SocketProvider>
+                <Messages />
+              </SocketProvider>
+            } />
+          </Routes>
+        </Router>
+      </AuthProvider>
   );
 };
 

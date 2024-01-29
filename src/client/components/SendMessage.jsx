@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
+import { useSocket } from "../context/socketContext";
+const socket = useSocket();
 const SendMessageComponent = () => {
   const [message, setMessage] = useState("");
   const { receiverId } = useParams(); // Get the receiver's user ID from the URL
@@ -29,6 +30,13 @@ const SendMessageComponent = () => {
 
       if (!response.ok) {
         alert("Failed to send message");
+      }
+      if (socket) {
+        socket.emit('send_message', {
+          sender_id: userId,
+          receiver_id: receiverId,
+          content: message,
+        });
       }
 
       setMessage("");
