@@ -3,6 +3,21 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const messageRoutes = express.Router();
 
+const createNotification = async (userId, type, message) => {
+  try {
+    await prisma.notifications.create({
+      data: {
+        user_id: userId,
+        type: type,
+        message: message,
+      },
+    });
+  } catch (error) {
+    console.error("Error creating notification:", error);
+  }
+};
+
+// POST a new message
 messageRoutes.post("/", async (req, res) => {
   const { sender_id, receiver_id, content } = req.body;
   try {
@@ -23,6 +38,7 @@ messageRoutes.post("/", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
 
 // GET inbox messages endpoint
 messageRoutes.get("/inbox/:userId", async (req, res) => {
