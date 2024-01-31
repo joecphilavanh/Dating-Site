@@ -24,7 +24,7 @@ const Messages = () => {
         socket.off("newMessage");
       }
     };
-  }, [socket, userId, selectedUserId]);
+  }, [socket, userId, selectedUserId, messages]);
 
   useEffect(() => {
     if (userId) {
@@ -33,6 +33,7 @@ const Messages = () => {
   }, [userId, selectedUserId]);
 
   const fetchMessages = async () => {
+    console.log("fetch da message");
     try {
       const response = await fetch(
         `/api/message/history/${userId}/${selectedUserId}`
