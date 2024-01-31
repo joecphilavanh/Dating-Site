@@ -9,6 +9,7 @@ const authRoutes = require("./api/routes/auth.js");
 const profileRoutes = require("./api/routes/profileRoutes.js");
 const likeRoutes = require("./api/routes/likeRoutes.js");
 const messageRoutes = require("./api/routes/messageRoutes.js");
+const suggestionsRoutes = require("./api/routes/suggestionsRoutes.js");
 
 const app = express();
 const server = http.createServer(app);
@@ -27,6 +28,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/like", likeRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/suggestions", suggestionsRoutes);
+
 
 const distPath = path.resolve(__dirname, '../../dist');
 app.use(express.static(distPath));
