@@ -2,6 +2,7 @@ const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const messageRoutes = express.Router();
+const createNotification = require('../notifications/notificationService.js');
 // POST a new message
 messageRoutes.post('/', async (req, res) => {
     const { sender_id, receiver_id, content } = req.body;
@@ -14,6 +15,9 @@ messageRoutes.post('/', async (req, res) => {
             }
         });
         req.io.emit('newMessage', newMessage);
+        // Create a notification for the receiver
+        const notificationMessage = `You have a new message.`;
+        await createNotification(receiver_id, "New Message", notificationMessage);
         res.status(201).json(newMessage);
     } catch (error) {
         console.error('Error sending message:', error);
