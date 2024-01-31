@@ -44,6 +44,7 @@ profilesRouter.get("/random", async (req, res) => {
 // get users profile by profile id
 profilesRouter.get("/:profileId", async (req, res) => {
   const { profileId } = req.params;
+  console.log("Received profileId:", profileId);
   try {
     const profile = await prisma.profiles.findUnique({
       where: { profile_id: profileId },
@@ -84,6 +85,7 @@ profilesRouter.post("/", async (req, res) => {
       bio,
     } = req.body;
 
+    console.log("Received profile data:", req.body);
     // Validate the birthdate format
     if (!isValidDate(birthdate)) {
       return res.status(400).send("Invalid birthdate format. Use YYYY-MM-DD.");

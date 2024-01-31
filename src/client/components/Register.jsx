@@ -1,8 +1,7 @@
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { supabase } from "../supabase";
-const backgroundImage = "/6.jpg";
+import { AuthContext } from "../context/AuthContext";
+import backgroundImage from "/6.jpg";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -12,17 +11,22 @@ const Register = () => {
   });
 
   const [errorMessage, setErrorMessage] = useState("");
-  const { login } = useAuth();
+  const { updateAuthState } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  console.log("updateAuthState Function:", updateAuthState); // Log for debugging
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-    console.log(formData);
 
     try {
       const response = await fetch("/api/auth/register", {
@@ -32,68 +36,80 @@ const Register = () => {
       });
 
       if (!response.ok) {
-        setErrorMessage("Registration failed");
-      } else {
-        const result = await response.json();
-        login(result.token, result.userId);
-        navigate("/matches");
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "Registration failed. Please try again.");
+        console.error("Registration Error:", errorData); // Log error response
+        return;
       }
+
+      const { token, userId } = await response.json();
+      console.log("Registration Success:", { userId, token }); // Log success response
+
+      updateAuthState({
+        isLoggedIn: true,
+        userId,
+        token,
+        profileId: null,
+        hasProfile: false,
+      });
+
+      navigate("/createprofile");
     } catch (error) {
       console.error("Error during registration:", error);
-      setErrorMessage("An error occurred during registration");
+      setErrorMessage("An unexpected error occurred. Please try again.");
     }
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-      className="h-screen w-full flex flex-col justify-center p-8"
-    >
-      <div className="custom-width ">
-        <h1 className="title-text">Welcome to Love's Journey!</h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            placeholder="Username"
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
-          />
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
-          />
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Password"
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
-          />
-          <button type="submit" className="flex-grow login-button">
-            Register
-          </button>
-          <Link to="/login" className="flex-grow login-button">
-            Already have an account, Login
-          </Link>
-        </form>
-        {errorMessage && (
-          <div className="text-red-500 text-center mt-2">{errorMessage}</div>
-        )}
+      <div
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed",
+          }}
+          className="h-screen w-full flex flex-col justify-center p-8"
+      >
+        <div className="custom-width">
+          <h1 className="title-text">Welcome to Love's Journey!</h1>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Username"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
+            />
+            <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
+            />
+            <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Password"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
+            />
+            <button type="submit" className="flex-grow login-button">
+              Register
+            </button>
+            <Link to="/login" className="flex-grow login-button">
+              Already have an account? Login
+            </Link>
+          </form>
+          {errorMessage && (
+              <div className="text-red-500 text-center mt-2">{errorMessage}</div>
+          )}
+        </div>
       </div>
-    </div>
   );
 };
 

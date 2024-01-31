@@ -1,84 +1,53 @@
-import { createContext, useState, useContext, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_KEY;
+import React, {createContext, useState, useEffect, useContext} from 'react';
 
 export const AuthContext = createContext();
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
 
-const createSupabaseClientWithToken = (token) => {
-  return createClient(supabaseUrl, supabaseAnonKey, {
-    global: {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    },
+const AuthProvider = ({ children }) => {
+  const [authState, setAuthState] = useState({
+    isLoggedIn: false,
+    userId: null,
+    token: null,
+    profileId: null,
+    hasProfile: false,
   });
-};
 
-export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState(null);
-  const [customSupabaseClient, setCustomSupabaseClient] = useState(null);
-  const [profileId, setProfileId] = useState(null);
-  const [token, setToken] = useState(null);
-
+  // Load auth state from localStorage on mount
   useEffect(() => {
-    const userToken = localStorage.getItem("token");
-    const savedUserId = localStorage.getItem("user_id");
-    const savedProfileId = localStorage.getItem("profile_id");
-
-    if (userToken && savedUserId) {
-      setIsLoggedIn(true);
-      setUserId(savedUserId);
-      setToken(userToken);
-      setCustomSupabaseClient(createSupabaseClientWithToken(userToken));
-    } else {
-      setIsLoggedIn(false);
-      setUserId(null);
-      setCustomSupabaseClient(null);
-    }
-
-    if (savedProfileId) {
-      setProfileId(savedProfileId);
+    const savedAuthState = localStorage.getItem('authState');
+    if (savedAuthState) {
+      setAuthState(JSON.parse(savedAuthState));
     }
   }, []);
 
-  const login = (token, userId) => {
-    setIsLoggedIn(true);
-    localStorage.setItem("token", token);
-    localStorage.setItem("user_id", userId);
-    setUserId(userId);
-    setCustomSupabaseClient(createSupabaseClientWithToken(token));
+  const updateAuthState = (newState) => {
+    console.log("Updating Auth State:", newState);
+    setAuthState(prevState => {
+      const updatedState = { ...prevState, ...newState };
+      localStorage.setItem('authState', JSON.stringify(updatedState)); // Save to localStorage
+      return updatedState;
+    });
   };
 
   const logout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem("token");
-    localStorage.removeItem("user_id");
-    setUserId(null);
-    setCustomSupabaseClient(null);
+    console.log("Logging out");
+    localStorage.removeItem('authState'); // Clear localStorage
+    setAuthState({ isLoggedIn: false, userId: null, token: null, profileId: null, hasProfile: false });
   };
 
-  const setProfile = (profile) => {
-    setProfileId(profile);
-    localStorage.setItem("profile_id", profile);
+  const setProfile = (profileId) => {
+    console.log("Setting Profile ID:", profileId);
+    updateAuthState({ profileId, hasProfile: true });
   };
 
-  const value = {
-    isLoggedIn,
-    login,
-    logout,
-    setProfile,
-    profileId,
-    userId,
-    supabase: customSupabaseClient,
-    token,
-  };
+  console.log("Current Auth State:", authState);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+      <AuthContext.Provider value={{ ...authState, updateAuthState, logout, setProfile }}>
+        {children}
+      </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

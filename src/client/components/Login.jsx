@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-const backgroundImage = "/6.jpg";
+import { AuthContext } from "../context/AuthContext";
+import backgroundImage from "/6.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { updateAuthState } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,9 +23,32 @@ const Login = () => {
         return;
       }
 
-      const result = await response.json();
-      login(result.token, result.userId);
-      navigate("/matches");
+      const { token, userId } = await response.json();
+
+      // Check if the user has a profile
+      const profileResponse = await fetch(`/api/profile/${userId}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+
+      let hasProfile = false;
+      let profileId = null;
+
+      if (profileResponse.ok) {
+        const profileData = await profileResponse.json();
+        hasProfile = true;
+        profileId = profileData.profile_id;
+      }
+
+      // Update the auth state with the new information
+      updateAuthState({
+        isLoggedIn: true,
+        userId,
+        token,
+        profileId,
+        hasProfile,
+      });
+
+      navigate(hasProfile ? "/matches" : "/createprofile");
     } catch (error) {
       console.error("Error during login:", error);
     }

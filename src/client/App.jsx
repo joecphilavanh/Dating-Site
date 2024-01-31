@@ -7,7 +7,7 @@ import ProfileCreation from "./components/ProfileCreation";
 import Profile from "./components/Profile";
 import Matches from "./components/Matches";
 import Login from "./components/Login";
-import { AuthProvider } from "./context/AuthContext";
+import AuthProvider  from "./context/AuthContext";
 import DiscoveringPeople from "./components/DiscoveringPeople";
 import ViewProfile from "./components/ViewProfile";
 import SendMessage from "./components/SendMessage";
