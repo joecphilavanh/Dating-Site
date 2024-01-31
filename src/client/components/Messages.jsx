@@ -15,7 +15,7 @@ const Messages = () => {
     if (socket) {
       socket.on("newMessage", (receivedMessage) => {
         console.log("Received new message:", receivedMessage);
-        setMessages((messages) => [...messages, receivedMessage]);
+        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       });
     }
 
