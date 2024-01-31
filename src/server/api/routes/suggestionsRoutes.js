@@ -16,6 +16,7 @@ suggestionsRoutes.get("/matchMaking/:userId", async (req, res) => {
     const profiles = await prisma.profiles.findMany({
       where: {
         AND: [
+            { looking_for: currentUserProfile.looking_for },
           { orientation: currentUserProfile.orientation },
           { NOT: { user_id: userId } },
         ],
@@ -23,6 +24,11 @@ suggestionsRoutes.get("/matchMaking/:userId", async (req, res) => {
       select: {
         name: true,
         orientation: true,
+        picture_url: true,
+        birthdate: true,
+        profile_id: true,
+
+
       },
     });
     res.json(profiles);
