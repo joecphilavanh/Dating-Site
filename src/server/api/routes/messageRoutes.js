@@ -15,7 +15,8 @@ messageRoutes.post("/", async (req, res) => {
     });
 
     req.io.to(sender_id).to(receiver_id).emit("newMessage", newMessage);
-
+    const notificationMessage = `You have a new message.`;
+    await createNotification(receiver_id, "New Message", notificationMessage);
     res.status(201).json(newMessage);
   } catch (error) {
     console.error("Error sending message:", error);
