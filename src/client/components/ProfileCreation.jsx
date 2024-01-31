@@ -1,9 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import UploadWidget from "./UploadWidget";
+
 const ProfileCreation = () => {
-  const { userId, setProfile, profileId } = useContext(AuthContext);
+  const { userId, updateAuthState } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ const ProfileCreation = () => {
   const handleSetPublicId = (publicId) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      picture_url: `https://res.cloudinary.com/dtnm1xt5q/image/upload/${publicId}`, // Construct the full URL using the publicId
+      picture_url: `https://res.cloudinary.com/dtnm1xt5q/image/upload/${publicId}`,
     }));
   };
 
@@ -41,9 +42,9 @@ const ProfileCreation = () => {
     uploadPreset: "puckerup",
     folder: "puckerup",
   };
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value || "",
@@ -52,12 +53,21 @@ const ProfileCreation = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Ensure there is a valid user ID
+    if (!userId) {
+      alert("User ID is not available. Please log in again.");
+      return;
+    }
+
     const profileData = {
       ...formData,
-      height_ft: parseInt(formData.height_ft, 10), // Convert to integer
-      height_in: parseInt(formData.height_in, 10), // Convert to integer
+      height_ft: parseInt(formData.height_ft, 10),
+      height_in: parseInt(formData.height_in, 10),
       user_id: userId,
     };
+
+    console.log("Sending profile data:", profileData);
 
     try {
       const response = await fetch("/api/profile", {
@@ -66,14 +76,17 @@ const ProfileCreation = () => {
         body: JSON.stringify(profileData),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
+        console.error("Error creating profile:", await response.text());
         alert("Profile creation failed");
-      } else {
-        setProfile(data["profile_id"]);
-        navigate("/profile");
+        return;
       }
+
+      const data = await response.json();
+      // Update auth state with the new profile ID
+      updateAuthState({ profileId: data.profile_id, hasProfile: true });
+
+      navigate("/profile");
     } catch (error) {
       console.error("Error creating profile:", error);
     }

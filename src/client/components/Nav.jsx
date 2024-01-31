@@ -4,18 +4,19 @@ import { useEffect, useState } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { isLoggedIn, logout, userId, profileId } = useAuth();
+  const { isLoggedIn, logout, profileId } = useAuth();
 
   const [hasProfile, setHasProfile] = useState(false);
 
   const fetchProfileData = async () => {
+    if (!profileId) return; // Add this check
+
     try {
       const response = await fetch(`/api/profile/${profileId}`);
       if (response.ok) {
-        const data = await response.json();
         setHasProfile(true);
       } else {
-        alert("Profile not found.");
+        console.error("Profile not found.");
       }
     } catch (error) {
       console.error("Error fetching data:", error.message);
@@ -26,7 +27,7 @@ function Navbar() {
     if (isLoggedIn) {
       fetchProfileData();
     }
-  }, [userId, isLoggedIn]);
+  }, [isLoggedIn, profileId]);
 
   const handleLogout = () => {
     logout();
