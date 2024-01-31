@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../supabase";
+const backgroundImage = "/6.jpg";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -44,11 +45,18 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 rounded-lg bg-white shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-700">
-          Register
-        </h2>
+    <div
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+      className="h-screen w-full flex flex-col justify-center p-8"
+    >
+      <div className="custom-width ">
+        <h1 className="title-text">Welcome to Love's Journey!</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <input
             type="text"
@@ -74,12 +82,12 @@ const Register = () => {
             placeholder="Password"
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-300"
           />
-          <button
-            type="submit"
-            className="w-full px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-2"
-          >
+          <button type="submit" className="flex-grow login-button">
             Register
           </button>
+          <Link to="/login" className="flex-grow login-button">
+            Already have an account, Login
+          </Link>
         </form>
         {errorMessage && (
           <div className="text-red-500 text-center mt-2">{errorMessage}</div>
