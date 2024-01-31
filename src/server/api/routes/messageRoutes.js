@@ -14,7 +14,7 @@ messageRoutes.post("/", async (req, res) => {
       },
     });
 
-    req.io.emit("newMessage", newMessage);
+    req.io.to(sender_id).to(receiver_id).emit("newMessage", newMessage);
 
     res.status(201).json(newMessage);
   } catch (error) {

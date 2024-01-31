@@ -15,7 +15,7 @@ const Messages = () => {
     if (socket) {
       socket.on("newMessage", (receivedMessage) => {
         console.log("Received new message:", receivedMessage);
-        setMessages((messages) => [...messages, receivedMessage]);
+        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       });
     }
 
@@ -24,7 +24,7 @@ const Messages = () => {
         socket.off("newMessage");
       }
     };
-  }, [socket, userId, selectedUserId, messages]);
+  }, [socket, userId, selectedUserId]);
 
   useEffect(() => {
     if (userId) {
