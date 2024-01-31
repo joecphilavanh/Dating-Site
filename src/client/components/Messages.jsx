@@ -24,7 +24,7 @@ const Messages = () => {
         socket.off("newMessage");
       }
     };
-  }, [socket]);
+  }, [socket, userId, selectedUserId]);
 
   useEffect(() => {
     if (userId) {
