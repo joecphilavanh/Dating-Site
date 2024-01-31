@@ -3,7 +3,15 @@ const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const path = require("path");
+const socketIo = require("socket.io");
+
+const authRoutes = require("./api/routes/auth.js");
+const profileRoutes = require("./api/routes/profileRoutes.js");
+const likeRoutes = require("./api/routes/likeRoutes.js");
+const messageRoutes = require("./api/routes/messageRoutes.js");
+const suggestionsRoutes = require("./api/routes/suggestionsRoutes.js");
 const cors = require("cors");
+
 
 const app = express();
 const server = createServer(app);
@@ -29,10 +37,12 @@ app.use(
 
 app.use(express.json());
 
-app.use("/api/auth", require("./api/routes/auth.js"));
-app.use("/api/profile", require("./api/routes/profileRoutes.js"));
-app.use("/api/like", require("./api/routes/likeRoutes.js"));
-app.use("/api/message", require("./api/routes/messageRoutes.js"));
+app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/like", likeRoutes);
+app.use("/api/message", messageRoutes);
+app.use("/api/suggestions", suggestionsRoutes);
+
 
 const distPath = path.resolve(__dirname, "../../dist");
 app.use(express.static(distPath));
