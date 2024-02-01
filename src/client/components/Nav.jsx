@@ -6,29 +6,6 @@ function Navbar() {
   const navigate = useNavigate();
   const { isLoggedIn, logout, profileId } = useAuth();
 
-  const [hasProfile, setHasProfile] = useState(false);
-
-  const fetchProfileData = async () => {
-    if (!profileId) return; // Add this check
-
-    try {
-      const response = await fetch(`/api/profile/${profileId}`);
-      if (response.ok) {
-        setHasProfile(true);
-      } else {
-        console.error("Profile not found.");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error.message);
-    }
-  };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      fetchProfileData();
-    }
-  }, [isLoggedIn, profileId]);
-
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -47,49 +24,46 @@ function Navbar() {
       </div>
       {isLoggedIn && (
         <div className="flex items-center space-x-4 mr-4">
-          {hasProfile ? (
-            <>
-              <Link
-                to="/discover"
-                className="text-white hover:text-red-500 transition duration-300"
-              >
-                Discover
-              </Link>
-              <Link
-                to="/matches"
-                className="text-white hover:text-red-500 transition duration-300"
-              >
-                Matches
-              </Link>
+          <>
+            <Link
+              to="/discover"
+              className="text-white hover:text-red-500 transition duration-300"
+            >
+              Discover
+            </Link>
+            <Link
+              to="/matches"
+              className="text-white hover:text-red-500 transition duration-300"
+            >
+              Matches
+            </Link>
 
-              <Link
-                to="/notifications"
-                className="text-white hover:text-red-500 transition duration-300"
-              >
-                Notifications
-              </Link>
-              <Link
-                to="/dms"
-                className="text-white hover:text-red-500 transition duration-300"
-              >
-                DMs
-              </Link>
+            <Link
+              to="/notifications"
+              className="text-white hover:text-red-500 transition duration-300"
+            >
+              Notifications
+            </Link>
+            <Link
+              to="/dms"
+              className="text-white hover:text-red-500 transition duration-300"
+            >
+              DMs
+            </Link>
 
-              <Link
-                to="/profile"
-                className="text-white hover:text-red-500 transition duration-300"
-              >
-                Profile
-              </Link>
-            </>
-          ) : (
+            <Link
+              to="/profile"
+              className="text-white hover:text-red-500 transition duration-300"
+            >
+              Profile
+            </Link>
             <Link
               to="/createprofile"
               className="text-white hover:text-red-500 transition duration-300"
             >
               Create Profile
             </Link>
-          )}
+          </>
 
           <button
             onClick={handleLogout}
