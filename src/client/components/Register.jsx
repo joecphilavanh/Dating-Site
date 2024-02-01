@@ -14,7 +14,6 @@ const Register = () => {
   const { updateAuthState } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log("updateAuthState Function:", updateAuthState); // Log for debugging
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,12 +37,12 @@ const Register = () => {
       if (!response.ok) {
         const errorData = await response.json();
         setErrorMessage(errorData.message || "Registration failed. Please try again.");
-        console.error("Registration Error:", errorData); // Log error response
+        console.error("Registration Error:", errorData);
         return;
       }
 
       const { token, userId } = await response.json();
-      console.log("Registration Success:", { userId, token }); // Log success response
+      console.log("Registration Success:", { userId, token });
 
       updateAuthState({
         isLoggedIn: true,

@@ -25,14 +25,14 @@ const AuthProvider = ({ children }) => {
     console.log("Updating Auth State:", newState);
     setAuthState(prevState => {
       const updatedState = { ...prevState, ...newState };
-      localStorage.setItem('authState', JSON.stringify(updatedState)); // Save to localStorage
+      localStorage.setItem('authState', JSON.stringify(updatedState));
       return updatedState;
     });
   };
 
   const logout = () => {
     console.log("Logging out");
-    localStorage.removeItem('authState'); // Clear localStorage
+    localStorage.removeItem('authState');
     setAuthState({ isLoggedIn: false, userId: null, token: null, profileId: null, hasProfile: false });
   };
 
