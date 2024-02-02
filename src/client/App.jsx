@@ -13,6 +13,7 @@ import SendMessage from "./components/SendMessage";
 import Messages from "./components/Messages";
 import Dms from "./components/Dms";
 import { SocketProvider } from "./context/socketContext";
+import EditProfile from "./components/editprofile";
 
 const App = () => {
   return (
@@ -28,6 +29,8 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/discover" element={<DiscoveringPeople />} />
           <Route path="/profile/:profileId" element={<ViewProfile />} />
+          <Route path="/editprofile" element={<EditProfile />} />
+
           <Route
             path="/messages"
             element={
