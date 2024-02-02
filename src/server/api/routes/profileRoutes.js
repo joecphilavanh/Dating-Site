@@ -32,8 +32,6 @@ profilesRouter.get("/random", async (req, res) => {
       skip: randomIndex,
     });
 
-    
-    
     res.json(randomProfile);
   } catch (error) {
     console.error("Error fetching random profile:", error);
@@ -210,6 +208,23 @@ profilesRouter.delete("/:userId", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send(error.message);
+  }
+});
+
+profilesRouter.get("/user/:userId", async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const profile = await prisma.profiles.findFirst({
+      where: { user_id: userId },
+    });
+    if (profile) {
+      res.json(profile);
+    } else {
+      res.status(404).json({ message: "Profile not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
   }
 });
 
