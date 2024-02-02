@@ -26,8 +26,8 @@ const Login = () => {
       const { token, userId } = await response.json();
 
       // Check if the user has a profile
-      const profileResponse = await fetch(`/api/profile/${userId}`, {
-        headers: { 'Authorization': `Bearer ${token}` },
+      const profileResponse = await fetch(`/api/profile/user/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       let hasProfile = false;
@@ -47,6 +47,7 @@ const Login = () => {
         profileId,
         hasProfile,
       });
+      console.log(profileId);
 
       navigate(hasProfile ? "/matches" : "/createprofile");
     } catch (error) {
