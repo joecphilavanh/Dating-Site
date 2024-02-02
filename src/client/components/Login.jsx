@@ -25,7 +25,6 @@ const Login = () => {
 
       const { token, userId } = await response.json();
 
-      // Check if the user has a profile
       const profileResponse = await fetch(`/api/profile/user/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -39,21 +38,30 @@ const Login = () => {
         profileId = profileData.profile_id;
       }
 
-      // Update the auth state with the new information
+      let notifications = [];
+      const notificationsResponse = await fetch(`/api/notification/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (notificationsResponse.ok) {
+        notifications = await notificationsResponse.json();
+      }
+
       updateAuthState({
         isLoggedIn: true,
         userId,
         token,
         profileId,
         hasProfile,
+        notifications,
       });
-      console.log(profileId);
-
+      console.log(notifications);
       navigate(hasProfile ? "/matches" : "/createprofile");
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
+
 
   return (
     <div

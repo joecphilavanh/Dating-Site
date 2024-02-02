@@ -11,7 +11,8 @@ const AuthProvider = ({ children }) => {
     token: null,
     profileId: null,
     hasProfile: false,
-  });
+    notifications: []
+    });
 
   // Load auth state from localStorage on mount
   useEffect(() => {
@@ -33,7 +34,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     console.log("Logging out");
     localStorage.removeItem('authState');
-    setAuthState({ isLoggedIn: false, userId: null, token: null, profileId: null, hasProfile: false });
+    setAuthState({ isLoggedIn: false, userId: null, token: null, profileId: null, hasProfile: false, notifications: [] });
   };
 
   const setProfile = (profileId) => {
@@ -41,10 +42,14 @@ const AuthProvider = ({ children }) => {
     updateAuthState({ profileId, hasProfile: true });
   };
 
+  const updateNotifications = (notifications) => {
+    console.log("Updating Notifications:", notifications);
+    updateAuthState({ notifications });
+  };
   console.log("Current Auth State:", authState);
 
   return (
-      <AuthContext.Provider value={{ ...authState, updateAuthState, logout, setProfile }}>
+      <AuthContext.Provider value={{ ...authState, updateAuthState, logout, setProfile, updateNotifications }}>
         {children}
       </AuthContext.Provider>
   );
