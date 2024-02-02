@@ -24,46 +24,49 @@ function Navbar() {
       </div>
       {isLoggedIn && (
         <div className="flex items-center space-x-4 mr-4">
-          <>
-            <Link
-              to="/discover"
-              className="text-white hover:text-red-500 transition duration-300"
-            >
-              Discover
-            </Link>
-            <Link
-              to="/matches"
-              className="text-white hover:text-red-500 transition duration-300"
-            >
-              Matches
-            </Link>
+          {profileId ? (
+            <>
+              <Link
+                to="/discover"
+                className="text-white hover:text-red-500 transition duration-300"
+              >
+                Discover
+              </Link>
+              <Link
+                to="/matches"
+                className="text-white hover:text-red-500 transition duration-300"
+              >
+                Matches
+              </Link>
 
-            <Link
-              to="/notifications"
-              className="text-white hover:text-red-500 transition duration-300"
-            >
-              Notifications
-            </Link>
-            <Link
-              to="/dms"
-              className="text-white hover:text-red-500 transition duration-300"
-            >
-              DMs
-            </Link>
+              <Link
+                to="/notifications"
+                className="text-white hover:text-red-500 transition duration-300"
+              >
+                Notifications
+              </Link>
+              <Link
+                to="/dms"
+                className="text-white hover:text-red-500 transition duration-300"
+              >
+                DMs
+              </Link>
 
-            <Link
-              to="/profile"
-              className="text-white hover:text-red-500 transition duration-300"
-            >
-              Profile
-            </Link>
+              <Link
+                to="/profile"
+                className="text-white hover:text-red-500 transition duration-300"
+              >
+                Profile
+              </Link>
+            </>
+          ) : (
             <Link
               to="/createprofile"
               className="text-white hover:text-red-500 transition duration-300"
             >
               Create Profile
             </Link>
-          </>
+          )}
 
           <button
             onClick={handleLogout}
