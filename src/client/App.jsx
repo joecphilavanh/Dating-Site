@@ -14,7 +14,7 @@ import SendMessage from "./components/SendMessage";
 import Messages from "./components/Messages";
 import Dms from "./components/Dms";
 import { SocketProvider } from "./context/socketContext";
-
+import Notifications from "./components/Notifications";
 const App = () => {
   return (
       <AuthProvider>
@@ -48,6 +48,11 @@ const App = () => {
             <Route path="/messages/:selectedUserId" element={
               <SocketProvider>
                 <Messages />
+              </SocketProvider>
+            } />
+            <Route path="/notifications" element={
+              <SocketProvider>
+                <Notifications />
               </SocketProvider>
             } />
           </Routes>

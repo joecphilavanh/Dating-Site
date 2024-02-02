@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useEffect, useState } from "react";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 function Navbar() {
   const navigate = useNavigate();
   const { isLoggedIn, logout, profileId } = useAuth();
@@ -40,12 +40,6 @@ function Navbar() {
               </Link>
 
               <Link
-                to="/notifications"
-                className="text-white hover:text-red-500 transition duration-300"
-              >
-                Notifications
-              </Link>
-              <Link
                 to="/dms"
                 className="text-white hover:text-red-500 transition duration-300"
               >
@@ -68,6 +62,9 @@ function Navbar() {
             </Link>
           )}
 
+          <Link to="/notifications" className="relative text-white hover:text-red-500 transition duration-300">
+            <FontAwesomeIcon icon={faBell} />
+          </Link>
           <button
             onClick={handleLogout}
             className="text-red-500 px-2 py-1 rounded-md hover:text-red-600 hover:bg-gray-800 transition duration-300"
