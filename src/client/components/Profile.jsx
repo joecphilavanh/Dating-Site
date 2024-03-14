@@ -53,10 +53,8 @@ const Profile = () => {
       const lon = "-115.1391";
       const apiKey = "5ef017b9b9e376efe20d43467b8b1948";
       const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
-
       const response = await fetch(url);
       const data = await response.json();
-
       if (data && data.main && typeof data.main.temp !== "undefined") {
         setTemperature(data.main.temp);
       }
